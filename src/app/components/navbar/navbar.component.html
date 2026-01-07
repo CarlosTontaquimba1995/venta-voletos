@@ -1,0 +1,19 @@
+<nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-brand" routerLink="/">
+            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 11L12 2L21 11V22H3V11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+            <span>VentaBoletos</span>
+        </div>
+
+        <div class="navbar-links" *ngIf="authService.isAuthenticated()">
+            <button class="logout-button" (click)="logout($event)">
+                <i class="icon-logout"></i> Cerrar Sesión
+            </button>
+        </div>
+    </div>
+</nav>
