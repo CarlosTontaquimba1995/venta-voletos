@@ -2,10 +2,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 // Color variables
-$primary: #3f51b5; // Blue from the image
+$primary: #3f51b5;
 $primary-light: #5c6bc0;
 $primary-dark: #303f9f;
-$success: #4caf50; // Green for completed steps
+$success: #4caf50;
 $light-gray: #f5f5f5;
 $medium-gray: #e0e0e0;
 $dark-gray: #9e9e9e;
@@ -16,412 +16,396 @@ $stepper-line-height: 2px;
 
 // Main container
 .stepper-container {
-    max-width: 1000px;
-    width: 100%;
-    margin: 2rem auto;
-    display: flex;
+  max-width: 1000px;
+  width: 100%;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  background: $white;
+  font-family: 'Poppins', sans-serif;
+}
+
+// Stepper Header
+.stepper-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.stepper-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: $text;
+  letter-spacing: -0.5px;
+}
+
+.stepper-subtitle {
+  margin: 0;
+  font-size: 1rem;
+  color: $dark-gray;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+// Stepper customization
+::ng-deep .mat-horizontal-stepper-header-container {
+  margin-bottom: 2rem;
+  position: relative;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+::ng-deep .mat-horizontal-stepper-header {
+  height: auto;
+  padding: 0 8px;
+  pointer-events: auto;
+  overflow: visible;
+  margin: 0 8px;
+  min-width: 0;
+}
+
+// Hide default stepper icons
+::ng-deep .mat-step-icon,
+::ng-deep .mat-step-header-ripple,
+::ng-deep .mat-step-icon-content,
+::ng-deep .mat-step-icon-selected,
+::ng-deep .mat-step-icon-state-done {
+  display: none !important;
+}
+
+// Step label container
+::ng-deep .mat-step-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 8px;
+  min-width: 100px;
+  max-width: 150px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  height: auto;
+  overflow: visible;
+}
+
+// Step number circle
+.step-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.step-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: $white;
+  color: $dark-gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  border: 2px solid $medium-gray;
+  position: relative;
+  z-index: 2;
+}
+
+.step-number.active {
+  background: $primary;
+  color: $white;
+  border-color: $primary;
+}
+
+// Step title and description
+.step-description {
+  font-size: 0.85rem;
+  color: $dark-gray;
+  font-weight: 500;
+  margin-top: 4px;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  width: 100%;
+  word-break: break-word;
+  line-height: 1.3;
+}
+
+// Active and completed states
+::ng-deep .mat-step-label[aria-selected="true"] .step-number,
+::ng-deep .mat-step-label[aria-selected="false"] .step-number {
+  background: $primary;
+  color: $white;
+  border-color: $primary;
+}
+
+::ng-deep .mat-step-label[aria-selected="true"] ~ .mat-step-header::before,
+::ng-deep .mat-step-label[aria-selected="false"] ~ .mat-step-header::before {
+  background: $primary;
+}
+
+// Completed state
+::ng-deep .mat-step-label[ng-reflect-state="done"] .step-number {
+  background: $success;
+  border-color: $success;
+  color: $white;
+}
+
+::ng-deep .mat-step-label[ng-reflect-state="done"] ~ .mat-step-header::before {
+  background: $success;
+}
+
+// Remove default connector line
+::ng-deep .mat-step-header + .mat-step-header::before {
+  display: none;
+}
+
+// Hide all connector lines
+::ng-deep .mat-stepper-horizontal-line {
+  display: none;
+}
+
+// Navigation buttons
+.stepper-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 2rem 0 0;
+  margin-top: 2rem;
+  border-top: 1px solid $medium-gray;
+}
+
+.stepper-actions button {
+  min-width: 120px;
+  padding: 8px 24px;
+  border-radius: 4px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.stepper-actions button[mat-stroked-button] {
+  border: 1px solid $primary;
+  color: $primary;
+}
+
+.stepper-actions button[mat-stroked-button]:hover {
+  background: rgba($primary, 0.04);
+}
+
+.stepper-actions button[mat-raised-button] {
+  background: $primary;
+  color: $white;
+}
+
+.stepper-actions button[mat-raised-button]:hover {
+  background: $primary-dark;
+}
+
+// Cards
+.confirmation-card {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+}
+
+.event-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+  padding: 0.5rem;
+}
+
+mat-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card-header {
+  background-color: #f8f9fa;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+mat-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.25rem;
+}
+
+mat-card-subtitle {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin-bottom: 0;
+}
+
+mat-card-content {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+mat-card-content p {
+  margin: 0;
+  color: #34495e;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+}
+
+mat-card-content p::before {
+  content: '\f073';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  margin-right: 0.5rem;
+  color: #7f8c8d;
+}
+
+mat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-color: #cbd5e0;
+}
+
+mat-card.selected {
+  border: 2px solid #3f51b5;
+  background-color: #f8f9ff;
+  box-shadow: 0 4px 12px rgba(63, 81, 181, 0.15);
+}
+
+mat-card.selected mat-card-header {
+  background-color: #f0f2ff;
+}
+
+// Seat selection
+.seat-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.seat-types {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.quantity-selector {
+  max-width: 200px;
+  margin: 1rem 0;
+}
+
+.quantity-selector .total {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #3f51b5;
+  margin-top: 1rem;
+}
+
+// Forms
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.full-width {
+  width: 100%;
+}
+
+// Additional card content styles
+mat-card-content h3,
+mat-card-content h4 {
+  color: #3f51b5;
+  margin: 1rem 0 0.5rem;
+}
+
+mat-card-content .total {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #3f51b5;
+  margin: 1rem 0;
+}
+
+// Stepper Navigation Buttons
+.stepper-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1rem 0 0;
+  margin-top: auto;
+}
+
+.stepper-buttons button {
+  min-width: 120px;
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+::ng-deep mat-step {
+  animation: fadeIn 0.3s ease-out;
+}
+
+// Responsive Adjustments
+@media (max-width: 768px) {
+  .stepper-container {
+    padding: 0.25rem;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .step-content {
+    padding: 1rem 0.5rem;
+    margin: 0.25rem 0;
+  }
+
+  .stepper-actions {
     flex-direction: column;
-    background: $white;
-    font-family: 'Poppins', sans-serif;
+    gap: 0.75rem;
+    padding: 1rem 0.5rem;
+  }
 
-    // Stepper Header
-    .stepper-header {
-        margin-bottom: 2rem;
-        text-align: center;
+  .stepper-actions button {
+    width: 100%;
+    margin: 0;
+  }
 
-        .stepper-title {
-            margin: 0 0 0.5rem;
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: $text;
-            letter-spacing: -0.5px;
-        }
+  .event-cards,
+  .seat-selection .seat-types {
+    grid-template-columns: 1fr;
+  }
 
-        .stepper-subtitle {
-            margin: 0;
-            font-size: 1rem;
-            color: $dark-gray;
-            font-weight: 400;
-            opacity: 0.9;
-        }
-    }
+  .stepper-buttons {
+    flex-direction: column;
+    gap: 1rem;
+  }
 
-    // Stepper customization
-    ::ng-deep {
-        .mat-horizontal-stepper-header-container {
-            margin-bottom: 2rem;
-            position: relative;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-
-        .mat-horizontal-stepper-header {
-            height: auto;
-            padding: 0 8px;
-            pointer-events: auto;
-            overflow: visible;
-            margin: 0 8px;
-            min-width: 0;
-
-            // Hide default stepper icons
-            .mat-step-icon {
-                display: none;
-            }
-
-            // Hide default connector lines
-            .mat-step-header-ripple,
-            .mat-step-icon-content,
-            .mat-step-icon-selected,
-            .mat-step-icon-state-done {
-                display: none !important;
-            }
-
-            // Step label container
-            .mat-step-label {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: flex-start;
-                padding: 0 8px;
-                min-width: 100px;
-                max-width: 150px;
-                text-align: center;
-                position: relative;
-                z-index: 2;
-                height: auto;
-                overflow: visible;
-
-                // Step number circle
-                .step-label {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 8px;
-
-                    .step-number {
-                        width: 40px;
-                        height: 40px;
-                        border-radius: 50%;
-                        background: $white;
-                        color: $dark-gray;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        font-weight: 600;
-                        font-size: 1rem;
-                        transition: all 0.3s ease;
-                        border: 2px solid $medium-gray;
-                        position: relative;
-                        z-index: 2;
-
-                        &.active {
-                            background: $primary;
-                            color: $white;
-                            border-color: $primary;
-                        }
-                    }
-
-                    // Step title and description
-                    .step-description {
-                        font-size: 0.85rem;
-                        color: $dark-gray;
-                        font-weight: 500;
-                        margin-top: 4px;
-                        white-space: normal;
-                        overflow: visible;
-                        text-overflow: clip;
-                        width: 100%;
-                        word-break: break-word;
-                        line-height: 1.3;
-                    }
-                }
-
-                // Active and completed states
-                &[aria-selected="true"],
-                &[aria-selected="false"] {
-                    .step-number {
-                        background: $primary;
-                        color: $white;
-                        border-color: $primary;
-                    }
-
-                    &~.mat-step-header::before {
-                        background: $primary;
-                    }
-                }
-
-                // Completed state
-                &[ng-reflect-state="done"] {
-                    .step-number {
-                        background: $success;
-                        border-color: $success;
-                        color: $white;
-
-                        &~.mat-step-header::before {
-                            background: $success;
-                        }
-                    }
-                }
-
-                // Remove default connector line
-                +.mat-step-header::before {
-                    display: none;
-                }
-            }
-
-            // Hide all connector lines
-            .mat-stepper-horizontal-line {
-                display: none;
-
-                // Navigation buttons
-                .stepper-actions {
-                    display: flex;
-                    justify-content: space-between;
-                    gap: 1rem;
-                    padding: 2rem 0 0;
-                    margin-top: 2rem;
-                    border-top: 1px solid $medium-gray;
-
-                    button {
-                        min-width: 120px;
-                        padding: 8px 24px;
-                        border-radius: 4px;
-                        font-weight: 500;
-                        text-transform: uppercase;
-                        letter-spacing: 0.5px;
-                        transition: all 0.3s ease;
-
-                        &[mat-stroked-button] {
-                            border: 1px solid $primary;
-                            color: $primary;
-
-                            &:hover {
-                                background: rgba($primary, 0.04);
-                            }
-                        }
-
-                        &[mat-raised-button] {
-                            background: $primary;
-                            color: $white;
-
-                            &:hover {
-                                background: $primary-dark;
-                            }
-                        }
-                    }
-                }
-
-                // Responsive adjustments
-                @media (max-width: 768px) {
-                    .stepper-container {
-                        padding: 0.25rem;
-                        border-radius: 0;
-                        box-shadow: none;
-                    }
-
-                    .step-content {
-                        padding: 1rem 0.5rem;
-                        margin: 0.25rem 0;
-                    }
-
-                    .stepper-actions {
-                        flex-direction: column;
-                        gap: 0.75rem;
-                        padding: 1rem 0.5rem;
-
-                        button {
-                            width: 100%;
-                            margin: 0;
-                        }
-                    }
-                }
-
-                .confirmation-card {
-                    max-width: 600px;
-                    margin: 2rem auto;
-                    padding: 1.5rem;
-                }
-
-                .event-cards {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                    gap: 1.5rem;
-                    margin: 2rem 0;
-                    padding: 0.5rem;
-                }
-
-                mat-card {
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    border-radius: 12px;
-                    overflow: hidden;
-                    border: 1px solid #e0e0e0;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-                    height: 100%;
-                    display: flex;
-                    flex-direction: column;
-
-                    mat-card-header {
-                        background-color: #f8f9fa;
-                        padding: 1.25rem 1.5rem;
-                        border-bottom: 1px solid #eee;
-
-                        mat-card-title {
-                            font-size: 1.1rem;
-                            font-weight: 600;
-                            color: #2c3e50;
-                            margin-bottom: 0.25rem;
-                        }
-
-                        mat-card-subtitle {
-                            color: #7f8c8d;
-                            font-size: 0.9rem;
-                            margin-bottom: 0;
-                        }
-                    }
-
-                    mat-card-content {
-                        padding: 1.5rem;
-                        flex-grow: 1;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
-
-                        p {
-                            margin: 0;
-                            color: #34495e;
-                            font-size: 0.95rem;
-                            display: flex;
-                            align-items: center;
-
-                            &::before {
-                                content: '\f073';
-                                /* FontAwesome calendar icon */
-                                font-family: 'Font Awesome 6 Free';
-                                font-weight: 900;
-                                margin-right: 0.5rem;
-                                color: #7f8c8d;
-                            }
-                        }
-                    }
-
-                    &:hover {
-                        transform: translateY(-4px);
-                        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-                        border-color: #cbd5e0;
-                    }
-
-                    &.selected {
-                        border: 2px solid #3f51b5;
-                        background-color: #f8f9ff;
-                        box-shadow: 0 4px 12px rgba(63, 81, 181, 0.15);
-
-                        mat-card-header {
-                            background-color: #f0f2ff;
-                        }
-                    }
-                }
-
-                .seat-selection {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 2rem;
-
-                    .seat-types {
-                        display: grid;
-                        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                        gap: 1rem;
-                    }
-
-                    .quantity-selector {
-                        max-width: 200px;
-                        margin: 1rem 0;
-
-                        .total {
-                            font-size: 1.2rem;
-                            font-weight: bold;
-                            color: #3f51b5;
-                            margin-top: 1rem;
-                        }
-                    }
-                }
-
-                form {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 1rem;
-
-                    .full-width {
-                        width: 100%;
-                    }
-                }
-
-
-                mat-card-content {
-                    padding: 1rem 0 0;
-
-                    h3,
-                    h4 {
-                        color: #3f51b5;
-                        margin: 1rem 0 0.5rem;
-                    }
-
-                    .total {
-                        font-size: 1.3rem;
-                        font-weight: bold;
-                        color: #3f51b5;
-                        margin: 1rem 0;
-                    }
-                }
-
-                /* Stepper Navigation Buttons */
-                .stepper-buttons {
-                    display: flex;
-                    justify-content: flex-end;
-                    gap: 1rem;
-                    padding: 1rem 0 0;
-                    margin-top: auto;
-
-                    button {
-                        min-width: 120px;
-                    }
-                }
-
-                /* Responsive Adjustments */
-                @media (max-width: 768px) {
-
-                    .event-cards,
-                    .seat-selection .seat-types {
-                        grid-template-columns: 1fr;
-                    }
-
-                    .stepper-buttons {
-                        flex-direction: column;
-                        gap: 1rem;
-
-                        button {
-                            width: 100%;
-                        }
-                    }
-                }
-
-                /* Animations */
-                @keyframes fadeIn {
-                    from {
-                        opacity: 0;
-                        transform: translateY(10px);
-                    }
-
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-
-                mat-step {
-                    animation: fadeIn 0.3s ease-out;
-                }
-            }
-        }
-    }
+  .stepper-buttons button {
+    width: 100%;
+  }
 }
