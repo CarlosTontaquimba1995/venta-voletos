@@ -10,6 +10,7 @@ export interface OrderItem {
   name: string;
   quantity: number;
   price: number;
+  type: string;
 }
 
 export interface OrderDetails {
@@ -24,6 +25,11 @@ export interface CustomerInfo {
   email: string;
   phone: string;
   paymentMethod: string;
+}
+
+export interface SelectedSeatType {
+  seatType: SeatType;
+  quantity: number;
 }
 
 @Component({
@@ -41,9 +47,11 @@ export interface CustomerInfo {
 })
 export class ConfirmationStepComponent implements OnInit, OnChanges {
   @Input() event: Event | null = null;
-  @Input() seatType: SeatType | null = null;
-  @Input() quantity: number = 1;
+  @Input() selectedSeats: { seatType: SeatType, quantity: number }[] = [];
+  @Input() seatType!: SeatType;
+  @Input() quantity!: number;
   @Input() personalInfo: PersonalInfo = { name: '', email: '', phone: '' };
+
   orderNumber: string = '';
   orderDetails: OrderDetails = {
     items: [],
@@ -62,54 +70,61 @@ export class ConfirmationStepComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.generateOrderNumber();
     this.updateOrderDetails();
-    this.prepareCustomerInfo();
+    this.updateCustomerInfo();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if ((changes['seatType'] || changes['quantity']) && this.seatType) {
+    if (changes['selectedSeats'] || changes['event']) {
       this.updateOrderDetails();
     }
     if (changes['personalInfo']) {
-      this.prepareCustomerInfo();
-    }
-  }
-
-  private updateOrderDetails(): void {
-    if (this.seatType) {
-      this.prepareOrderDetails();
+      this.updateCustomerInfo();
     }
   }
 
   private generateOrderNumber(): void {
     // Generate a random order number (in a real app, this would come from the server)
-    const randomNum = Math.floor(100000 + Math.random() * 900000);
-    this.orderNumber = `ORD-${randomNum}`;
+    this.orderNumber = 'ORD-' + Math.random().toString(36).substr(2, 8).toUpperCase();
   }
 
-  private prepareOrderDetails(): void {
-    if (this.seatType) {
-      const subtotal = this.seatType.price * this.quantity;
-      const tax = subtotal;
+  private updateCustomerInfo(): void {
+    this.customerInfo = {
+      name: this.personalInfo.name,
+      email: this.personalInfo.email,
+      phone: this.personalInfo.phone,
+      paymentMethod: 'Tarjeta de crédito terminada en 4242'
+    };
+  }
+
+  private updateOrderDetails(): void {
+    if (this.selectedSeats && this.selectedSeats.length > 0) {
+      const items = this.selectedSeats
+        .filter(item => item.quantity > 0)
+        .map(item => ({
+          name: item.seatType.name,
+          quantity: item.quantity,
+          price: item.seatType.price,
+          type: item.seatType.id
+        }));
+
+      const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const tax = Math.round(subtotal * 0.19 * 100) / 100; // 19% de impuestos
       const total = subtotal + tax;
 
       this.orderDetails = {
-        items: [{
-          name: this.seatType.name,
-          quantity: this.quantity,
-          price: this.seatType.price
-        }],
+        items: items,
         subtotal: subtotal,
         tax: tax,
         total: total
       };
+    } else {
+      this.orderDetails = {
+        items: [],
+        subtotal: 0,
+        tax: 0,
+        total: 0
+      };
     }
-  }
-
-  private prepareCustomerInfo(): void {
-    this.customerInfo = {
-      ...this.personalInfo,
-      paymentMethod: 'Tarjeta de crédito terminada en 4242'
-    };
   }
 
   downloadTickets(): void {

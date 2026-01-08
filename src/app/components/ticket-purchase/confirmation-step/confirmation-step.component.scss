@@ -1,25 +1,31 @@
 // Confirmation Step Styles
 .confirmation-container {
-    max-width: 800px;
+    max-width: 700px;
     margin: 0 auto;
-    padding: var(--spacing-xl);
+    padding: var(--spacing-md);
     font-family: var(--font-family);
     color: var(--color-text-primary);
     animation: fadeIn 0.5s ease-out;
+    background: var(--color-background);
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--shadow-sm);
 
     @media (max-width: 768px) {
-        padding: var(--spacing-md);
+        padding: var(--spacing-sm);
+            margin: var(--spacing-sm);
     }
 }
 
 .confirmation-header {
     text-align: center;
-    margin-bottom: var(--spacing-xxl);
+    margin-bottom: var(--spacing-lg);
+        padding-bottom: var(--spacing-md);
+        border-bottom: 1px solid var(--color-border);
 
     .confirmation-icon {
-        width: 80px;
-        height: 80px;
-        margin: 0 auto var(--spacing-md);
+        width: 60px;
+            height: 60px;
+            margin: 0 auto var(--spacing-sm);
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -31,32 +37,34 @@
         }
 
         mat-icon {
-            width: 48px;
-            height: 48px;
-            font-size: 48px;
+            width: 36px;
+                height: 36px;
+                font-size: 36px;
         }
     }
 
     h2 {
         color: var(--color-primary);
-        font-size: var(--font-size-xxl);
-        margin-bottom: var(--spacing-sm);
+        font-size: var(--font-size-xl);
+            margin: 0 0 var(--spacing-xs) 0;
         font-weight: 600;
+        line-height: 1.2;
     }
 
     .confirmation-subtitle {
         color: var(--color-text-secondary);
-        font-size: var(--font-size-lg);
-        margin-bottom: var(--spacing-md);
+        font-size: var(--font-size-md);
+            margin: 0 0 var(--spacing-sm) 0;
     }
 
     .confirmation-number {
         display: inline-block;
         background: var(--color-background);
-        padding: var(--spacing-xs) var(--spacing-md);
+        padding: var(--spacing-xxs) var(--spacing-sm);
         border-radius: var(--border-radius-md);
-        font-size: var(--font-size-md);
+        font-size: var(--font-size-sm);
         color: var(--color-text-secondary);
+        margin-top: var(--spacing-xs);
 
         strong {
             color: var(--color-primary);
@@ -68,28 +76,31 @@
 .order-summary,
 .customer-info {
     background: var(--color-white);
-    border-radius: var(--border-radius-lg);
-    padding: var(--spacing-xl);
-    margin-bottom: var(--spacing-xl);
-    box-shadow: var(--shadow-sm);
+    border-radius: var(--border-radius-md);
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        border: 1px solid var(--color-border);
 
     h3 {
         color: var(--color-primary);
-        font-size: var(--font-size-xl);
-        margin: 0 0 var(--spacing-lg) 0;
+        font-size: var(--font-size-lg);
+            margin: 0 0 var(--spacing-md) 0;
         font-weight: 600;
+        padding-bottom: var(--spacing-xs);
+            border-bottom: 1px solid var(--color-border);
     }
 }
 
 .ticket-details {
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
 
     .ticket-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: var(--spacing-md) 0;
-        border-bottom: 1px solid var(--color-border);
+        padding: var(--spacing-sm) 0;
+            border-bottom: 1px dashed var(--color-border);
 
         &:last-child {
             border-bottom: none;
@@ -100,12 +111,13 @@
 
             .ticket-name {
                 font-weight: 500;
-                margin-bottom: var(--spacing-xxs);
+                margin-bottom: 2px;
                 color: var(--color-text-primary);
+                font-size: var(--font-size-md);
             }
 
             .ticket-quantity {
-                font-size: var(--font-size-sm);
+                font-size: var(--font-size-xs);
                 color: var(--color-text-secondary);
             }
         }
@@ -120,26 +132,27 @@
 .divider {
     height: 1px;
     background-color: var(--color-border);
-    margin: var(--spacing-lg) 0;
+    margin: var(--spacing-md) 0;
 }
 
 .order-totals {
     .total-row {
         display: flex;
         justify-content: space-between;
-        margin-bottom: var(--spacing-sm);
-        font-size: var(--font-size-md);
+        margin-bottom: var(--spacing-xs);
+            font-size: var(--font-size-sm);
+            padding: 2px 0;
 
         &:last-child {
             margin-bottom: 0;
         }
 
         &.total-amount {
-            font-size: var(--font-size-lg);
+            font-size: var(--font-size-md);
             font-weight: 600;
-            margin-top: var(--spacing-md);
-            padding-top: var(--spacing-md);
-            border-top: 2px solid var(--color-border);
+            margin-top: var(--spacing-sm);
+                padding-top: var(--spacing-sm);
+                border-top: 1px solid var(--color-border);
             color: var(--color-primary);
         }
     }
@@ -148,17 +161,22 @@
 .customer-info {
     .info-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: var(--spacing-md);
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: var(--spacing-sm);
 
         .info-item {
-            margin-bottom: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+                padding: var(--spacing-xs);
+                background: var(--color-background);
+                border-radius: var(--border-radius-sm);
 
             .info-label {
                 display: block;
-                font-size: var(--font-size-sm);
+                font-size: var(--font-size-xs);
                 color: var(--color-text-secondary);
-                margin-bottom: var(--spacing-xxs);
+                margin-bottom: 2px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
             }
 
             .info-value {
@@ -172,19 +190,28 @@
 .confirmation-actions {
     display: flex;
     justify-content: center;
-    gap: var(--spacing-md);
-    margin: var(--spacing-xxl) 0;
+    gap: var(--spacing-sm);
+        margin: var(--spacing-lg) 0;
+        padding-top: var(--spacing-sm);
+        border-top: 1px solid var(--color-border);
 
     button {
         display: flex;
         align-items: center;
-        gap: var(--spacing-xs);
+        gap: var(--spacing-xxs);
         font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+        text-transform: none;
+            letter-spacing: 0.3px;
+            font-size: var(--font-size-sm);
+            padding: 0 var(--spacing-sm);
+            height: 36px;
+            border-radius: var(--border-radius-md);
 
         mat-icon {
-            margin-right: var(--spacing-xxs);
+            margin-right: 4px;
+                font-size: 16px;
+                width: 16px;
+                height: 16px;
         }
 
         &.email-button {
@@ -212,11 +239,19 @@
 .confirmation-footer {
     text-align: center;
     color: var(--color-text-secondary);
-    font-size: var(--font-size-sm);
-    margin-top: var(--spacing-xxl);
-    padding-top: var(--spacing-lg);
+    font-size: var(--font-size-xs);
+        margin-top: var(--spacing-lg);
+        padding-top: var(--spacing-sm);
     border-top: 1px solid var(--color-border);
 
+    p {
+            margin: 0 0 4px 0;
+            line-height: 1.4;
+    
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
     a {
         color: var(--color-primary);
         text-decoration: none;

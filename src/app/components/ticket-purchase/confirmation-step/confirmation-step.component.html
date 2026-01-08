@@ -12,7 +12,6 @@
 
     <div class="order-summary">
         <h3>Resumen de tu compra</h3>
-
         <div class="ticket-details">
             <div class="ticket-item" *ngFor="let item of orderDetails.items">
                 <div class="ticket-info">
@@ -23,16 +22,10 @@
             </div>
         </div>
 
-        <div class="divider"></div>
-
         <div class="order-totals">
             <div class="total-row">
                 <span>Subtotal</span>
                 <span>${{orderDetails.subtotal | number}}</span>
-            </div>
-            <div class="total-row">
-                <span>Impuestos</span>
-                <span>${{orderDetails.tax | number}}</span>
             </div>
             <div class="total-row total-amount">
                 <span>Total</span>
@@ -45,20 +38,16 @@
         <h3>Información del Cliente</h3>
         <div class="info-grid">
             <div class="info-item">
-                <span class="info-label">Nombre:</span>
+                <span class="info-label">Nombre</span>
                 <span class="info-value">{{customerInfo.name}}</span>
             </div>
             <div class="info-item">
-                <span class="info-label">Correo:</span>
+                <span class="info-label">Correo</span>
                 <span class="info-value">{{customerInfo.email}}</span>
             </div>
             <div class="info-item">
-                <span class="info-label">Teléfono:</span>
-                <span class="info-value">{{customerInfo.phone}}</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">Método de pago:</span>
-                <span class="info-value">{{customerInfo.paymentMethod}}</span>
+                <span class="info-label">Teléfono</span>
+                <span class="info-value">{{customerInfo.phone || 'No especificado'}}</span>
             </div>
         </div>
     </div>
@@ -66,17 +55,16 @@
     <div class="confirmation-actions">
         <button mat-flat-button color="primary" (click)="downloadTickets()">
             <mat-icon>download</mat-icon>
-            Descargar Boletos
+            Descargar boletos
         </button>
-        <button mat-stroked-button color="primary" (click)="sendToEmail()" class="email-button">
+        <button mat-stroked-button (click)="sendToEmail()" class="email-button">
             <mat-icon>email</mat-icon>
             Enviar por correo
         </button>
     </div>
 
     <div class="confirmation-footer">
-        <p>Recibirás un correo de confirmación con los detalles de tu compra.</p>
-        <p>Si tienes alguna pregunta, contáctanos a <a
-                href="mailto:soporte&#64;tuevento.com">soporte&#64;tuevento.com</a></p>
+        <p>Recibirás un correo con los detalles de tu compra.</p>
+        <p>¿Preguntas? <a href="mailto:soporte&#64;tuevento.com">soporte&#64;tuevento.com</a></p>
     </div>
 </div>

@@ -77,10 +77,11 @@
                 </div>
             </ng-template>
             <div class="step-content">
-                <app-confirmation-step [event]="selectedEvent" [seatType]="selectedSeatType"
-                    [quantity]="secondFormGroup.get('quantity')?.value || 1"
-                    [personalInfo]="personalInfo" (newPurchase)="resetForm()">
-                </app-confirmation-step>
+                <ng-container *ngIf="selectedSeatType">
+                    <app-confirmation-step [event]="selectedEvent" [seatType]="selectedSeatType"
+                        [quantity]="secondFormGroup.get('quantity')?.value || 1" [personalInfo]="personalInfo" (newPurchase)="resetForm()">
+                    </app-confirmation-step>
+                </ng-container>
             </div>
             <div class="stepper-actions">
                 <button mat-stroked-button (click)="stepper.previous()">

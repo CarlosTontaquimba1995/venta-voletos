@@ -38,7 +38,8 @@
             <div class="form-group">
                 <label for="phone">Teléfono</label>
                 <input type="tel" id="phone" formControlName="phone" class="form-control"
-                    [class.is-invalid]="formGroup.get('phone')?.invalid && formGroup.get('phone')?.touched" autocomplete="tel"
+                    [class.is-invalid]="formGroup.get('phone')?.invalid && formGroup.get('phone')?.touched" 
+                    autocomplete="tel" maxlength="10"
                     placeholder="Ej: 3001234567">
                 <div *ngIf="formGroup.get('phone')?.invalid && formGroup.get('phone')?.touched" class="invalid-feedback">
                     <div *ngIf="formGroup.get('phone')?.hasError('required')">

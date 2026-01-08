@@ -1,40 +1,34 @@
 /* Main container styles */
 :host {
     display: block;
-    padding: 0;
-    max-width: 100%;
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    padding: var(--spacing-md);
+        max-width: 1200px;
+        margin: 0 auto;
     min-height: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 1rem 0;
+}
+
+h2 {
+    color: #3f51b5;
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+    font-size: var(--font-size-xl);
+}
+
+.subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: var(--spacing-xl);
+    font-size: var(--font-size-md);
 }
 
 /* Form container */
 .personal-info-container {
-    width: 100%;
-    max-width: 500px;
-    padding: 1.5rem;
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin: 1rem 0;
-    transition: all 0.3s ease;
-
-    @media (max-width: 768px) {
-        padding: 1.25rem;
-        margin: 0.5rem;
-        width: calc(100% - 1rem);
-    }
-}
-
-h2 {
-    text-align: center;
-    margin: 0 0 2rem 0;
-    color: #2c3e50;
-    font-size: 1.75rem;
-    font-weight: 600;
+    border-radius: var(--border-radius-lg);
+        box-shadow: var(--shadow-sm);
+        padding: var(--spacing-lg);
+        max-width: 600px;
+        margin: 0 auto;
 }
 
 /* Form styles */
@@ -47,8 +41,8 @@ h2 {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
-            color: #2c3e50;
-            font-size: 0.95rem;
+            color: #3f51b5;
+                font-size: var(--font-size-md);
         }
 
         input[type="text"],
@@ -56,26 +50,23 @@ h2 {
         input[type="tel"],
         .form-control {
             width: 100%;
-            padding: 0.6rem 0.75rem;
-            font-size: 0.95rem;
-            line-height: 1.4;
-            color: #495057;
+            padding: 0.75rem 1rem;
+                font-size: var(--font-size-md);
+                line-height: 1.5;
+                color: #2d3748;
             background-color: #fff;
-            background-clip: padding-box;
-            border: 1px solid #ced4da;
-            border-radius: 6px;
-            transition: all 0.2s ease;
+            border: 1px solid #e2e8f0;
+                border-radius: var(--border-radius-md);
+                transition: all var(--transition-normal) ease;
             box-sizing: border-box;
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
 
             &:focus {
-                color: #495057;
-                background-color: #fff;
-                border-color: #80bdff;
+                border-color: #3f51b5;
                 outline: 0;
-                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+                box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.15);
             }
 
             &.is-invalid,
@@ -91,10 +82,10 @@ h2 {
 
         .invalid-feedback {
             display: block;
-            width: 100%;
             margin-top: 0.5rem;
-            font-size: 0.875em;
-            color: #dc3545;
+            font-size: var(--font-size-sm);
+                color: #e53e3e;
+                font-weight: 500;
         }
     }
 
