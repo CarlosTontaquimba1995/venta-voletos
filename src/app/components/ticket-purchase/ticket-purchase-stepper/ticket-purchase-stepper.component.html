@@ -17,7 +17,7 @@
                 <button mat-stroked-button color="primary" *ngIf="stepper.selectedIndex > 0" (click)="stepper.previous()">
                     Anterior
                 </button>
-                <button mat-raised-button color="primary" *ngIf="selectedEvent" (click)="goToNextStep()">
+                <button mat-raised-button color="primary" [disabled]="!firstFormGroup.valid || !selectedEvent" (click)="goToNextStep()">
                     Siguiente
                 </button>
             </div>
@@ -41,7 +41,8 @@
                 </div>
             <div class="stepper-actions">
                 <button mat-stroked-button matStepperPrevious>Atrás</button>
-                <button mat-raised-button color="primary" matStepperNext [disabled]="selectedSeats.length === 0">
+                <button mat-raised-button color="primary" [disabled]="!secondFormGroup.valid || selectedSeats.length === 0"
+                    matStepperNext>
                     Siguiente
                 </button>
             </div>

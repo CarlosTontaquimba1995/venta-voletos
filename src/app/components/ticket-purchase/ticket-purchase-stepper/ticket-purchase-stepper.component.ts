@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, HostListener, ElementRef, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
@@ -63,8 +63,29 @@ export type { PersonalInfo as IPersonalInfo };
   templateUrl: './ticket-purchase-stepper.component.html',
   styleUrls: ['./ticket-purchase-stepper.component.scss']
 })
-export class TicketPurchaseStepperComponent {
+export class TicketPurchaseStepperComponent implements AfterViewInit {
   @ViewChild('stepper') stepper!: MatStepper;
+
+  // Prevent clicks on stepper headers
+  @HostListener('click', ['$event'])
+  onClick(event: MouseEvent) {
+    // Check if the click is on a stepper header
+    const target = event.target as HTMLElement;
+    if (target.closest('.mat-step-header')) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+  }
+
+  ngAfterViewInit() {
+    // Disable pointer events on stepper headers
+    if (this.stepper && this.stepper._stepHeader) {
+      const headers = document.querySelectorAll('.mat-step-header');
+      headers.forEach(header => {
+        (header as HTMLElement).style.pointerEvents = 'none';
+      });
+    }
+  }
 
   isLinear = true;
   isCompleted = false;
