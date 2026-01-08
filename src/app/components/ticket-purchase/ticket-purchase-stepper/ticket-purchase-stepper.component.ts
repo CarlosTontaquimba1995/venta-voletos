@@ -77,6 +77,7 @@ export class TicketPurchaseStepperComponent {
   // Data to pass between steps
   selectedEvent: Event | null = null;
   selectedSeatType: SeatType | null = null;
+  selectedSeats: { seatType: SeatType, quantity: number }[] = [];
   quantity: number = 1;
   personalInfo: PersonalInfo = {
     name: '',
@@ -147,6 +148,11 @@ export class TicketPurchaseStepperComponent {
     this.cdRef.detectChanges(); // Force change detection
   }
 
+  onSeatSelectionsChange(selections: { seatType: SeatType, quantity: number }[]): void {
+    this.selectedSeats = selections;
+    this.cdRef.detectChanges();
+  }
+
   onPersonalInfoSubmit(): void {
     if (this.thirdFormGroup.valid) {
       this.personalInfo = {
@@ -161,17 +167,13 @@ export class TicketPurchaseStepperComponent {
     // Here you would typically send the order to your backend
     console.log('Order confirmed:', {
       event: this.selectedEvent,
-      seatType: this.selectedSeatType,
-      quantity: this.quantity,
+      seats: this.selectedSeats,
       personalInfo: this.personalInfo,
       total: this.getTotal()
     });
 
     // Mark the current step as completed
     this.isCompleted = true;
-
-    // Optional: You might want to show a success message or redirect
-    // this.showSuccessMessage = true;
   }
 
   getSelectedSeatPrice(): number {
@@ -179,13 +181,16 @@ export class TicketPurchaseStepperComponent {
   }
 
   getTotal(): number {
-    return this.getSelectedSeatPrice() * (this.quantity || 1);
+    return this.selectedSeats.reduce((total, seat) => {
+      return total + (seat.seatType.price * seat.quantity);
+    }, 0);
   }
 
   resetForm(): void {
     this.stepper.reset();
     this.selectedEvent = null;
     this.selectedSeatType = null;
+    this.selectedSeats = [];
     this.quantity = 1;
     this.personalInfo = { name: '', email: '', phone: '' };
     this.firstFormGroup.reset();

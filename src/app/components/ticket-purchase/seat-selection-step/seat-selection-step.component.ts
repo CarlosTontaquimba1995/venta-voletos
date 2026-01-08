@@ -43,9 +43,10 @@ export class SeatSelectionStepComponent implements OnInit {
   @Output() seatSelected = new EventEmitter<SeatType>();
   @Output() quantityChange = new EventEmitter<number>();
   @Output() quantityChanged = new EventEmitter<number>();
+  @Output() seatSelectionsChange = new EventEmitter<{ seatType: SeatType, quantity: number }[]>();
 
   // Track quantities for each seat type
-  seatQuantities: { [key: string]: number } = {};
+  seatQuantities: { [key: string]: { seatType: SeatType, quantity: number } } = {};
 
   // Default seat types if not provided
   defaultSeatTypes: SeatType[] = [
@@ -83,18 +84,20 @@ export class SeatSelectionStepComponent implements OnInit {
   }
 
   onSeatSelect(seatType: SeatType): void {
-    const isNewSelection = this.selectedSeatType?.id !== seatType.id;
     this.selectedSeatType = seatType;
 
     // Initialize quantity for this seat type if it doesn't exist
     if (!this.seatQuantities[seatType.id]) {
-      this.seatQuantities[seatType.id] = 0;
+      this.seatQuantities[seatType.id] = {
+        seatType: seatType,
+        quantity: 0
+      };
     }
 
     // Update the current quantity to match the selected seat
-    this.quantity = this.seatQuantities[seatType.id];
+    this.quantity = this.seatQuantities[seatType.id].quantity;
     this.quantityChanged.emit(this.quantity);
-
+    this.emitSeatSelections();
     this.seatSelected.emit(seatType);
   }
 
@@ -111,28 +114,27 @@ export class SeatSelectionStepComponent implements OnInit {
   }
 
   getTotalPrice(): number {
-    if (!this.selectedSeatType) return 0;
-
     // Calculate total price for all selected seats
-    return Object.entries(this.seatQuantities).reduce((total, [seatId, qty]) => {
-      const seat = this.seatTypes.find(s => s.id === seatId);
-      return total + (seat ? seat.price * qty : 0);
+    return Object.values(this.seatQuantities).reduce((total, seatData) => {
+      return total + (seatData.seatType.price * seatData.quantity);
     }, 0);
   }
 
   incrementQuantity(): void {
     if (this.selectedSeatType && this.quantity < 10) {
       this.quantity++;
-      this.seatQuantities[this.selectedSeatType.id] = this.quantity;
+      this.seatQuantities[this.selectedSeatType.id].quantity = this.quantity;
       this.quantityChanged.emit(this.quantity);
+      this.emitSeatSelections();
     }
   }
 
   decrementQuantity(): void {
     if (this.selectedSeatType && this.quantity > 0) {
       this.quantity--;
-      this.seatQuantities[this.selectedSeatType.id] = this.quantity;
+      this.seatQuantities[this.selectedSeatType.id].quantity = this.quantity;
       this.quantityChanged.emit(this.quantity);
+      this.emitSeatSelections();
     }
   }
 
@@ -141,5 +143,11 @@ export class SeatSelectionStepComponent implements OnInit {
     if (['e', 'E', '+', '-', '.'].includes(event.key)) {
       event.preventDefault();
     }
+  }
+
+  private emitSeatSelections(): void {
+    const selections = Object.values(this.seatQuantities)
+      .filter(seatData => seatData.quantity > 0);
+    this.seatSelectionsChange.emit(selections);
   }
 }

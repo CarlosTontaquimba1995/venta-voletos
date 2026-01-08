@@ -39,10 +39,16 @@
         <h3>Resumen de tu selección</h3>
         <div class="selection-details">
             <ng-container *ngFor="let seatType of seatTypes">
-                <div class="detail-row" *ngIf="seatQuantities[seatType.id] > 0">
-                    <span class="detail-label">{{seatQuantities[seatType.id]}} x {{seatType.name}}</span>
-                    <span class="detail-value">${{seatType.price * seatQuantities[seatType.id]}} USD</span>
-                </div>
+                <ng-container *ngIf="seatQuantities[seatType.id] as seatData">
+                    <div class="detail-row" *ngIf="seatData.quantity > 0">
+                        <span class="detail-label">
+                            {{ seatData.quantity }} x {{ seatType.name }}
+                        </span>
+                        <span class="detail-value">
+                            ${{ seatType.price * seatData.quantity }} USD
+                        </span>
+                    </div>
+                </ng-container>
             </ng-container>
             <div class="detail-row total" *ngIf="getTotalPrice() > 0">
                 <span class="detail-label">Total a pagar</span>

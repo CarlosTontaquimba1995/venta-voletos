@@ -48,8 +48,6 @@ export interface SelectedSeatType {
 export class ConfirmationStepComponent implements OnInit, OnChanges {
   @Input() event: Event | null = null;
   @Input() selectedSeats: { seatType: SeatType, quantity: number }[] = [];
-  @Input() seatType!: SeatType;
-  @Input() quantity!: number;
   @Input() personalInfo: PersonalInfo = { name: '', email: '', phone: '' };
 
   orderNumber: string = '';
@@ -108,14 +106,12 @@ export class ConfirmationStepComponent implements OnInit, OnChanges {
         }));
 
       const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-      const tax = Math.round(subtotal * 0.19 * 100) / 100; // 19% de impuestos
-      const total = subtotal + tax;
 
       this.orderDetails = {
         items: items,
         subtotal: subtotal,
-        tax: tax,
-        total: total
+        tax: 0,
+        total: subtotal
       };
     } else {
       this.orderDetails = {

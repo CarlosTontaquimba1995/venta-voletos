@@ -24,26 +24,21 @@
         </mat-step>
 
         <!-- Step 2: Seat Selection -->
-        <mat-step [stepControl]="secondFormGroup" [completed]="stepper.selectedIndex > 1">
-            <ng-template matStepLabel>
-                <div class="step-label">
-                    <div class="step-number" [class.active]="stepper.selectedIndex === 1">2</div>
-                    <span class="step-description">Localidad</span>
-                </div>
-            </ng-template>
-            <div class="step-content">
+        <mat-step [stepControl]="secondFormGroup">
+            <form [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>Selecciona tus asientos</ng-template>
+        
                 <app-seat-selection-step [seatTypes]="seatTypes" [selectedSeatType]="selectedSeatType" [quantity]="quantity"
-                    (seatSelected)="onSeatSelected($event)" (quantityChanged)="onQuantityChange($event)" (continue)="goToNextStep()">
+                    (seatSelected)="onSeatSelected($event)" (quantityChanged)="onQuantityChange($event)"
+                    (seatSelectionsChange)="onSeatSelectionsChange($event)">
                 </app-seat-selection-step>
-            </div>
-            <div class="stepper-actions">
-                <button mat-stroked-button (click)="stepper.previous()">
-                    Anterior
-                </button>
-                <button mat-raised-button color="primary" [disabled]="!selectedSeatType" (click)="goToNextStep()">
+<div class="stepper-actions">
+                <button mat-stroked-button matStepperPrevious>Atrás</button>
+                <button mat-flat-button color="primary" matStepperNext [disabled]="selectedSeats.length === 0">
                     Siguiente
                 </button>
-            </div>
+                </div>
+            </form>
         </mat-step>
 
         <!-- Step 3: Personal Information -->
@@ -69,27 +64,17 @@
         </mat-step>
 
         <!-- Step 4: Confirmation -->
-        <mat-step [completed]="isCompleted">
-            <ng-template matStepLabel>
-                <div class="step-label">
-                    <div class="step-number" [class.active]="stepper.selectedIndex === 3">4</div>
-                    <span class="step-description">Revisa tu compra</span>
-                </div>
-            </ng-template>
-            <div class="step-content">
-                <ng-container *ngIf="selectedSeatType">
-                    <app-confirmation-step [event]="selectedEvent" [seatType]="selectedSeatType"
-                        [quantity]="secondFormGroup.get('quantity')?.value || 1" [personalInfo]="personalInfo" (newPurchase)="resetForm()">
-                    </app-confirmation-step>
-                </ng-container>
-            </div>
+        <mat-step>
+            <ng-template matStepLabel>Confirmación</ng-template>
+        
+            <app-confirmation-step [event]="selectedEvent" [selectedSeats]="selectedSeats" [personalInfo]="personalInfo">
+            </app-confirmation-step>
+
             <div class="stepper-actions">
-                <button mat-stroked-button (click)="stepper.previous()">
-                    Volver
-                </button>
-                <button mat-raised-button color="primary" (click)="onConfirmPurchase()">
-                    Confirmar Compra
-                </button>
+            <button mat-stroked-button matStepperPrevious>Atrás</button>
+            <button mat-flat-button color="primary" (click)="onConfirmPurchase()" [disabled]="!isCompleted">
+                Confirmar compra
+            </button>
             </div>
         </mat-step>
     </mat-horizontal-stepper>
