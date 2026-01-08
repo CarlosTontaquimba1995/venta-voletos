@@ -1,0 +1,207 @@
+// Color variables
+$primary: #4a6cf7;
+$primary-light: #7e9af9;
+$primary-dark: #2a4fd6;
+$error: #ff4d4f;
+$success: #52c41a;
+$text-primary: #1a1a1a;
+$text-secondary: #666;
+$border-color: #e0e0e0;
+$background: #f8f9fa;
+$white: #ffffff;
+$box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+$transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+:host {
+    display: block;
+    padding: 2.5rem;
+    max-width: 500px;
+    margin: 2rem auto;
+    background: $white;
+    border-radius: 16px;
+    box-shadow: $box-shadow;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+    @media (max-width: 768px) {
+        padding: 1.5rem;
+        margin: 1rem;
+        max-width: 100%;
+    }
+}
+
+h2 {
+    color: $text-primary;
+    margin: 0 0 1.5rem 0;
+    font-weight: 600;
+    text-align: center;
+    font-size: 1.75rem;
+    line-height: 1.3;
+}
+
+.subtitle {
+    text-align: center;
+    color: $text-secondary;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+
+    @media (max-width: 600px) {
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+}
+
+.form-field {
+    flex: 1;
+    position: relative;
+    margin-bottom: 0.5rem;
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: $text-primary;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .input-container {
+        position: relative;
+        width: 100%;
+
+        .prefix {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: $text-secondary;
+            font-size: 1rem;
+            pointer-events: none;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            padding-left: 40px;
+            border: 1px solid $border-color;
+            border-radius: 8px;
+            font-size: 0.9375rem;
+            transition: $transition;
+            background-color: $white;
+            color: $text-primary;
+            height: 48px;
+
+            &:focus {
+                outline: none;
+                border-color: $primary;
+                box-shadow: 0 0 0 2px rgba($primary, 0.1);
+            }
+
+            &::placeholder {
+                color: color-mix(in srgb, $text-secondary, white 40%);
+            }
+        }
+
+        .mat-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: $text-secondary;
+            font-size: 1.25rem;
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        &.with-icon {
+            input {
+                padding-left: 44px;
+            }
+        }
+    }
+
+    .error-message {
+        color: $error;
+        font-size: 0.75rem;
+        margin-top: 0.25rem;
+        display: block;
+        min-height: 1rem;
+    }
+
+    &.error {
+
+        input,
+        select {
+            border-color: $error;
+            padding-right: 2.5rem;
+        }
+
+        .mat-icon.error-icon {
+            display: block;
+            color: $error;
+            right: 12px;
+            left: auto;
+        }
+    }
+
+    .mat-icon.error-icon {
+        display: none;
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $error;
+        font-size: 1.25rem;
+    }
+}
+
+.button-container {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+        background: $primary;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 2rem;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: $transition;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 8px rgba($primary, 0.2);
+
+        &:hover {
+            background: $primary-dark;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba($primary, 0.3);
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba($primary, 0.2);
+        }
+
+        &:disabled {
+            background: color-mix(in srgb, $primary 50%, white);
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+    }
+}

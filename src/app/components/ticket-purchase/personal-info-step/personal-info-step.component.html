@@ -1,0 +1,49 @@
+<div class="form-container">
+    <h2>Información Personal</h2>
+    <p class="form-subtitle">Por favor completa tus datos para continuar con la compra</p>
+
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="personal-info-form">
+        <!-- Nombre Completo -->
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nombre Completo</mat-label>
+            <input matInput formControlName="name" required autocomplete="name" placeholder="Ej: Juan Pérez">
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-hint>Ingresa tu nombre completo</mat-hint>
+            <mat-error *ngIf="formGroup.get('name')?.hasError('required')">
+                El nombre es requerido
+            </mat-error>
+            <mat-error *ngIf="formGroup.get('name')?.hasError('minlength')">
+                El nombre debe tener al menos 3 caracteres
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Correo Electrónico -->
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Correo Electrónico</mat-label>
+            <input matInput type="email" formControlName="email" required autocomplete="email"
+                placeholder="ejemplo@correo.com">
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-hint>Ingresa un correo válido</mat-hint>
+            <mat-error *ngIf="formGroup.get('email')?.hasError('required')">
+                El correo es requerido
+            </mat-error>
+            <mat-error *ngIf="formGroup.get('email')?.hasError('email')">
+                Por favor ingresa un correo electrónico válido
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Teléfono -->
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Teléfono</mat-label>
+            <input matInput formControlName="phone" required type="tel" autocomplete="tel" placeholder="Ej: 3001234567">
+            <mat-icon matSuffix>phone</mat-icon>
+            <mat-hint>Ingresa tu número de teléfono a 10 dígitos</mat-hint>
+            <mat-error *ngIf="formGroup.get('phone')?.hasError('required')">
+                El teléfono es requerido
+            </mat-error>
+            <mat-error *ngIf="formGroup.get('phone')?.hasError('pattern')">
+                Por favor ingresa un número de teléfono válido (10 dígitos)
+            </mat-error>
+        </mat-form-field>
+    </form>
+</div>
