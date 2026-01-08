@@ -26,6 +26,15 @@ import { AuthService, User } from '../../../services/auth.service';
   styleUrls: ['./personal-info-step.component.scss']
 })
 export class PersonalInfoStepComponent implements OnInit {
+  onKeyPress(event: KeyboardEvent) {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    // Only allow numbers (0-9)
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      event.preventDefault();
+      return false;
+    }
+    return true;
+  }
   @Input() formGroup!: FormGroup;
   @Output() formSubmitted = new EventEmitter<void>();
 
