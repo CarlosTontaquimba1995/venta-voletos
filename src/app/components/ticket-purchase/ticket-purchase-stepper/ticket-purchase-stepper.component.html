@@ -1,5 +1,5 @@
 <div class="stepper-container">
-    <mat-horizontal-stepper #stepper [linear]="isLinear" class="custom-stepper">
+    <mat-horizontal-stepper #stepper [linear]="isLinear" class="custom-stepper no-click-stepper">
         <!-- Step 1: Event Selection -->
         <mat-step [stepControl]="firstFormGroup" [completed]="stepper.selectedIndex > 0">
             <ng-template matStepLabel>

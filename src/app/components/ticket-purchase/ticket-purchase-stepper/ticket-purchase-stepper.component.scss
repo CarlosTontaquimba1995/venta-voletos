@@ -47,6 +47,13 @@ $stepper-line-height: 2px;
   opacity: 0.9;
 }
 
+// Disable click on stepper headers
+.no-click-stepper {
+    ::ng-deep .mat-step-header {
+        pointer-events: none !important;
+        cursor: default !important;
+    }
+}
 // Stepper customization
 ::ng-deep .mat-horizontal-stepper-header-container {
   margin-bottom: 2rem;
