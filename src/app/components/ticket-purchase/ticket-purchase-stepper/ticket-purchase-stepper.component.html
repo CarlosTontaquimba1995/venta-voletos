@@ -63,7 +63,7 @@
                     Anterior
                 </button>
                 <button mat-raised-button color="primary" [disabled]="!thirdFormGroup.valid" (click)="onPersonalInfoSubmit()">
-                    Confirmar
+                    Siguiente
                 </button>
             </div>
         </mat-step>
@@ -77,7 +77,8 @@
                 </div>
             </ng-template>
             <div class="step-content">
-                <app-confirmation-step [event]="selectedEvent" [seatType]="selectedSeatType" [quantity]="quantity"
+                <app-confirmation-step [event]="selectedEvent" [seatType]="selectedSeatType"
+                    [quantity]="secondFormGroup.get('quantity')?.value || 1"
                     [personalInfo]="personalInfo" (newPurchase)="resetForm()">
                 </app-confirmation-step>
             </div>
@@ -85,8 +86,8 @@
                 <button mat-stroked-button (click)="stepper.previous()">
                     Volver
                 </button>
-                <button mat-raised-button color="primary" (click)="resetForm()">
-                    Nueva Compra
+                <button mat-raised-button color="primary" (click)="onConfirmPurchase()">
+                    Confirmar Compra
                 </button>
             </div>
         </mat-step>

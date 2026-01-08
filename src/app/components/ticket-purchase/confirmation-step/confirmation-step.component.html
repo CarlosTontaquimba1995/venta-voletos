@@ -1,1 +1,82 @@
-<p>confirmation-step works!</p>
+<div class="confirmation-container">
+    <div class="confirmation-header">
+        <div class="confirmation-icon success">
+            <mat-icon>check_circle</mat-icon>
+        </div>
+        <h2>¡Compra Exitosa!</h2>
+        <p class="confirmation-subtitle">Tu pedido ha sido procesado correctamente</p>
+        <div class="confirmation-number">
+            Número de orden: <strong>{{orderNumber}}</strong>
+        </div>
+    </div>
+
+    <div class="order-summary">
+        <h3>Resumen de tu compra</h3>
+
+        <div class="ticket-details">
+            <div class="ticket-item" *ngFor="let item of orderDetails.items">
+                <div class="ticket-info">
+                    <div class="ticket-name">{{item.name}}</div>
+                    <div class="ticket-quantity">{{item.quantity}} x ${{item.price | number}}</div>
+                </div>
+                <div class="ticket-total">${{item.quantity * item.price | number}}</div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="order-totals">
+            <div class="total-row">
+                <span>Subtotal</span>
+                <span>${{orderDetails.subtotal | number}}</span>
+            </div>
+            <div class="total-row">
+                <span>Impuestos</span>
+                <span>${{orderDetails.tax | number}}</span>
+            </div>
+            <div class="total-row total-amount">
+                <span>Total</span>
+                <span>${{orderDetails.total | number}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="customer-info">
+        <h3>Información del Cliente</h3>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="info-label">Nombre:</span>
+                <span class="info-value">{{customerInfo.name}}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Correo:</span>
+                <span class="info-value">{{customerInfo.email}}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Teléfono:</span>
+                <span class="info-value">{{customerInfo.phone}}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Método de pago:</span>
+                <span class="info-value">{{customerInfo.paymentMethod}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="confirmation-actions">
+        <button mat-flat-button color="primary" (click)="downloadTickets()">
+            <mat-icon>download</mat-icon>
+            Descargar Boletos
+        </button>
+        <button mat-stroked-button color="primary" (click)="sendToEmail()" class="email-button">
+            <mat-icon>email</mat-icon>
+            Enviar por correo
+        </button>
+    </div>
+
+    <div class="confirmation-footer">
+        <p>Recibirás un correo de confirmación con los detalles de tu compra.</p>
+        <p>Si tienes alguna pregunta, contáctanos a <a
+                href="mailto:soporte&#64;tuevento.com">soporte&#64;tuevento.com</a></p>
+    </div>
+</div>

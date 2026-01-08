@@ -109,7 +109,10 @@ export class TicketPurchaseStepperComponent {
 
     this.thirdFormGroup = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+      ]],
       phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]]
     });
   }
@@ -152,6 +155,23 @@ export class TicketPurchaseStepperComponent {
       this.isCompleted = true;
       this.goToNextStep();
     }
+  }
+
+  onConfirmPurchase(): void {
+    // Here you would typically send the order to your backend
+    console.log('Order confirmed:', {
+      event: this.selectedEvent,
+      seatType: this.selectedSeatType,
+      quantity: this.quantity,
+      personalInfo: this.personalInfo,
+      total: this.getTotal()
+    });
+
+    // Mark the current step as completed
+    this.isCompleted = true;
+
+    // Optional: You might want to show a success message or redirect
+    // this.showSuccessMessage = true;
   }
 
   getSelectedSeatPrice(): number {
