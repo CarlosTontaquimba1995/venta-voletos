@@ -106,19 +106,6 @@ export class TicketPurchaseStepperComponent implements AfterViewInit {
     phone: ''
   };
 
-  // Mock data
-  events: Event[] = [
-    { id: 1, name: 'Concierto de Rock', date: '2023-12-25', location: 'Estadio Olímpico' },
-    { id: 2, name: 'Festival de Jazz', date: '2023-12-30', location: 'Teatro Nacional' },
-    { id: 3, name: 'Partido de Fútbol', date: '2024-01-05', location: 'Estadio Monumental' }
-  ];
-
-  seatTypes: SeatType[] = [
-    { id: 'general', name: 'General', price: 50, available: true },
-    { id: 'vip', name: 'VIP', price: 100, available: true },
-    { id: 'platino', name: 'Platino', price: 150, available: true }
-  ];
-
   constructor(private formBuilder: FormBuilder, private cdRef: ChangeDetectorRef) {
     this.firstFormGroup = this.formBuilder.group({
       event: ['', Validators.required]

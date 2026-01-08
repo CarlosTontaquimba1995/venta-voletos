@@ -9,7 +9,7 @@
                 </div>
             </ng-template>
             <div class="step-content">
-                <app-event-selection-step [events]="events" [selectedEvent]="selectedEvent"
+                <app-event-selection-step [selectedEvent]="selectedEvent"
                     (eventSelected)="onEventSelected($event)">
                 </app-event-selection-step>
             </div>
@@ -33,7 +33,7 @@
             </ng-template>
             <div class="step-content">
                 <form [formGroup]="secondFormGroup">
-                    <app-seat-selection-step [seatTypes]="seatTypes" [selectedSeatType]="selectedSeatType" [quantity]="quantity"
+                    <app-seat-selection-step [selectedSeatType]="selectedSeatType" [quantity]="quantity"
                         (seatSelected)="onSeatSelected($event)" (quantityChanged)="onQuantityChange($event)"
                         (seatSelectionsChange)="onSeatSelectionsChange($event)">
                     </app-seat-selection-step>

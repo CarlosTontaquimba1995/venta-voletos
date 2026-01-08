@@ -37,7 +37,11 @@ import { SeatType } from '../ticket-purchase-stepper/ticket-purchase-stepper.com
   ]
 })
 export class SeatSelectionStepComponent implements OnInit {
-  @Input() seatTypes: SeatType[] = [];
+  @Input() seatTypes: SeatType[] = [
+    { id: 'general', name: 'General', price: 50, available: true },
+    { id: 'vip', name: 'VIP', price: 100, available: true },
+    { id: 'platino', name: 'Platino', price: 150, available: true }
+  ];
   @Input() selectedSeatType: SeatType | null = null;
   @Input() quantity: number = 0;
   @Output() seatSelected = new EventEmitter<SeatType>();

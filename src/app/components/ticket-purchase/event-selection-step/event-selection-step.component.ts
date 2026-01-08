@@ -16,7 +16,12 @@ import { Event } from '../ticket-purchase-stepper/ticket-purchase-stepper.compon
   styleUrls: ['./event-selection-step.component.scss']
 })
 export class EventSelectionStepComponent {
-  @Input() events: Event[] = [];
+  @Input() events: Event[] = [
+    { id: 1, name: 'Concierto de Rock', date: '2023-12-25', location: 'Estadio Olímpico' },
+    { id: 2, name: 'Festival de Jazz', date: '2023-12-30', location: 'Teatro Nacional' },
+    { id: 3, name: 'Partido de Fútbol', date: '2024-01-05', location: 'Estadio Monumental' }
+  ];
+
   @Input() selectedEvent: Event | null = null;
   @Output() eventSelected = new EventEmitter<Event>();
 
