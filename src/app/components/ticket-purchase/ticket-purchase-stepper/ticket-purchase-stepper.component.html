@@ -1,0 +1,34 @@
+<div class="stepper-container">
+    <mat-horizontal-stepper #stepper [linear]="isLinear">
+        <!-- Step 1: Event Selection -->
+        <mat-step [stepControl]="firstFormGroup">
+            <ng-template matStepLabel>Seleccionar Evento</ng-template>
+            <app-event-selection-step [events]="events" [selectedEvent]="selectedEvent"
+                (eventSelected)="onEventSelected($event)">
+            </app-event-selection-step>
+        </mat-step>
+
+        <!-- Step 2: Seat Selection -->
+        <mat-step [stepControl]="secondFormGroup">
+            <ng-template matStepLabel>Seleccionar Asiento</ng-template>
+            <app-seat-selection-step [seatTypes]="seatTypes" [selectedSeatType]="selectedSeatType" [quantity]="quantity"
+                (seatSelected)="onSeatSelected($event)" (quantityChanged)="onQuantityChange($event)">
+            </app-seat-selection-step>
+        </mat-step>
+
+        <!-- Step 3: Personal Information -->
+        <mat-step [stepControl]="thirdFormGroup">
+            <ng-template matStepLabel>Información Personal</ng-template>
+            <app-personal-info-step [formGroup]="thirdFormGroup" (formSubmitted)="onPersonalInfoSubmit()">
+            </app-personal-info-step>
+        </mat-step>
+
+        <!-- Step 4: Confirmation -->
+        <mat-step>
+            <ng-template matStepLabel>Confirmación</ng-template>
+            <app-confirmation-step [event]="selectedEvent" [seatType]="selectedSeatType" [quantity]="quantity"
+                [personalInfo]="personalInfo" (newPurchase)="resetForm()">
+            </app-confirmation-step>
+        </mat-step>
+    </mat-horizontal-stepper>
+</div>

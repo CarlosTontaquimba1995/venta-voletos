@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { TicketPurchaseStepperComponent } from '../ticket-purchase/ticket-purchase-stepper/ticket-purchase-stepper.component';
 
 @Component({
     selector: 'app-dashboard',
@@ -9,23 +10,10 @@ import { NavbarComponent } from '../navbar/navbar.component';
     imports: [
         CommonModule,
         RouterOutlet,
-        NavbarComponent
+      NavbarComponent,
+      TicketPurchaseStepperComponent
     ],
-    template: `
-    <div class="dashboard">
-      <app-navbar></app-navbar>
-      <div class="container mt-4">
-        <h1>Welcome to Dashboard</h1>
-        <p>This is a protected route. Only authenticated users can see this page.</p>
-        <router-outlet></router-outlet>
-      </div>
-    </div>
-  `,
-    styles: [`
-    .dashboard {
-      min-height: 100vh;
-      background-color: #f8f9fa;
-    }
-  `]
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent { }
