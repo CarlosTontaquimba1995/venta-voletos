@@ -123,22 +123,33 @@ export class TicketPurchaseStepperComponent {
     }
   }
 
+  goToNextStep(): void {
+    if (this.stepper) {
+      this.stepper.next();
+    }
+  }
+
   onEventSelected(event: Event): void {
     this.selectedEvent = event;
-    this.stepper.next();
+    this.firstFormGroup.patchValue({ event: event.id });
+    this.goToNextStep();
   }
 
   onSeatSelected(seatType: SeatType): void {
     this.selectedSeatType = seatType;
-    this.secondFormGroup.patchValue({ seatType: seatType.id });
+    this.secondFormGroup.patchValue({
+      seatType: seatType.id,
+      quantity: this.quantity || 1
+    });
   }
 
   onPersonalInfoSubmit(): void {
     if (this.thirdFormGroup.valid) {
-      this.personalInfo = this.thirdFormGroup.value as PersonalInfo;
-      this.quantity = this.secondFormGroup.get('quantity')?.value;
+      this.personalInfo = {
+        ...this.thirdFormGroup.value
+      };
       this.isCompleted = true;
-      this.stepper.next();
+      this.goToNextStep();
     }
   }
 

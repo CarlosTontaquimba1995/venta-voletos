@@ -1,34 +1,94 @@
 <div class="stepper-container">
-    <mat-horizontal-stepper #stepper [linear]="isLinear">
+    <mat-horizontal-stepper #stepper [linear]="isLinear" class="custom-stepper">
         <!-- Step 1: Event Selection -->
-        <mat-step [stepControl]="firstFormGroup">
-            <ng-template matStepLabel>Seleccionar Evento</ng-template>
-            <app-event-selection-step [events]="events" [selectedEvent]="selectedEvent"
-                (eventSelected)="onEventSelected($event)">
-            </app-event-selection-step>
+        <mat-step [stepControl]="firstFormGroup" [completed]="stepper.selectedIndex > 0">
+            <ng-template matStepLabel>
+                <div class="step-label">
+                    <div class="step-number" [class.active]="stepper.selectedIndex === 0">1</div>
+                    <span class="step-description">Evento</span>
+                </div>
+            </ng-template>
+            <div class="step-content">
+                <app-event-selection-step [events]="events" [selectedEvent]="selectedEvent"
+                    (eventSelected)="onEventSelected($event)">
+                </app-event-selection-step>
+            </div>
+            <div class="stepper-actions">
+                <button mat-stroked-button color="primary" *ngIf="stepper.selectedIndex > 0" (click)="stepper.previous()">
+                    Anterior
+                </button>
+                <button mat-raised-button color="primary" *ngIf="selectedEvent" (click)="goToNextStep()">
+                    Siguiente
+                </button>
+            </div>
         </mat-step>
 
         <!-- Step 2: Seat Selection -->
-        <mat-step [stepControl]="secondFormGroup">
-            <ng-template matStepLabel>Seleccionar Asiento</ng-template>
-            <app-seat-selection-step [seatTypes]="seatTypes" [selectedSeatType]="selectedSeatType" [quantity]="quantity"
-                (seatSelected)="onSeatSelected($event)" (quantityChanged)="onQuantityChange($event)">
-            </app-seat-selection-step>
+        <mat-step [stepControl]="secondFormGroup" [completed]="stepper.selectedIndex > 1">
+            <ng-template matStepLabel>
+                <div class="step-label">
+                    <div class="step-number" [class.active]="stepper.selectedIndex === 1">2</div>
+                    <span class="step-description">Asiento</span>
+                </div>
+            </ng-template>
+            <div class="step-content">
+                <app-seat-selection-step [seatTypes]="seatTypes" [selectedSeatType]="selectedSeatType" [quantity]="quantity"
+                    (seatSelected)="onSeatSelected($event)" (quantityChanged)="onQuantityChange($event)">
+                </app-seat-selection-step>
+            </div>
+            <div class="stepper-actions">
+                <button mat-stroked-button (click)="stepper.previous()">
+                    Anterior
+                </button>
+                <button mat-raised-button color="primary" [disabled]="!selectedSeatType" (click)="goToNextStep()">
+                    Siguiente
+                </button>
+            </div>
         </mat-step>
 
         <!-- Step 3: Personal Information -->
-        <mat-step [stepControl]="thirdFormGroup">
-            <ng-template matStepLabel>Información Personal</ng-template>
-            <app-personal-info-step [formGroup]="thirdFormGroup" (formSubmitted)="onPersonalInfoSubmit()">
-            </app-personal-info-step>
+        <mat-step [stepControl]="thirdFormGroup" [completed]="stepper.selectedIndex > 2">
+            <ng-template matStepLabel>
+                <div class="step-label">
+                    <div class="step-number" [class.active]="stepper.selectedIndex === 2">3</div>
+                    <span class="step-description">Datos</span>
+                </div>
+            </ng-template>
+            <div class="step-content">
+                <app-personal-info-step [formGroup]="thirdFormGroup" (formSubmitted)="onPersonalInfoSubmit()">
+                </app-personal-info-step>
+            </div>
+            <div class="stepper-actions">
+                <button mat-stroked-button (click)="stepper.previous()">
+                    Anterior
+                </button>
+                <button mat-raised-button color="primary" [disabled]="!thirdFormGroup.valid" (click)="onPersonalInfoSubmit()">
+                    Confirmar
+                </button>
+            </div>
         </mat-step>
 
         <!-- Step 4: Confirmation -->
-        <mat-step>
-            <ng-template matStepLabel>Confirmación</ng-template>
-            <app-confirmation-step [event]="selectedEvent" [seatType]="selectedSeatType" [quantity]="quantity"
-                [personalInfo]="personalInfo" (newPurchase)="resetForm()">
-            </app-confirmation-step>
+        <mat-step [completed]="isCompleted">
+            <ng-template matStepLabel>
+                <div class="step-label">
+                    <div class="step-number" [class.active]="stepper.selectedIndex === 3">4</div>
+                    <span class="step-description">Revisa tu compra</span>
+                </div>
+            </ng-template>
+            <div class="step-content">
+                <app-confirmation-step [event]="selectedEvent" [seatType]="selectedSeatType" [quantity]="quantity"
+                    [personalInfo]="personalInfo" (newPurchase)="resetForm()">
+                </app-confirmation-step>
+            </div>
+            <div class="stepper-actions">
+                <button mat-stroked-button (click)="stepper.previous()">
+                    Volver
+                </button>
+                <button mat-raised-button color="primary" (click)="resetForm()">
+                    Nueva Compra
+                </button>
+            </div>
         </mat-step>
     </mat-horizontal-stepper>
 </div>
