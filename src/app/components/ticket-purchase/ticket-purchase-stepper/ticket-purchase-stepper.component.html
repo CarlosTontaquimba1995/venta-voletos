@@ -28,12 +28,12 @@
             <ng-template matStepLabel>
                 <div class="step-label">
                     <div class="step-number" [class.active]="stepper.selectedIndex === 1">2</div>
-                    <span class="step-description">Asiento</span>
+                    <span class="step-description">Localidad</span>
                 </div>
             </ng-template>
             <div class="step-content">
                 <app-seat-selection-step [seatTypes]="seatTypes" [selectedSeatType]="selectedSeatType" [quantity]="quantity"
-                    (seatSelected)="onSeatSelected($event)" (quantityChanged)="onQuantityChange($event)">
+                    (seatSelected)="onSeatSelected($event)" (quantityChanged)="onQuantityChange($event)" (continue)="goToNextStep()">
                 </app-seat-selection-step>
             </div>
             <div class="stepper-actions">

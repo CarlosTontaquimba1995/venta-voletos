@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,8 +24,10 @@ export interface Event {
 export interface SeatType {
   id: string;
   name: string;
+  description?: string;
   price: number;
   available: boolean;
+  icon?: string;
 }
 
 export interface PersonalInfo {
@@ -95,7 +97,7 @@ export class TicketPurchaseStepperComponent {
     { id: 'platino', name: 'Platino', price: 150, available: true }
   ];
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private cdRef: ChangeDetectorRef) {
     this.firstFormGroup = this.formBuilder.group({
       event: ['', Validators.required]
     });
@@ -112,14 +114,11 @@ export class TicketPurchaseStepperComponent {
     });
   }
 
-  onQuantityChange(event: any): void {
-    const newValue = parseInt(event.target.value, 10);
-    if (newValue >= 1 && newValue <= 10) {
-      this.quantity = newValue;
-      this.secondFormGroup.get('quantity')?.setValue(newValue, { emitEvent: false });
-    } else {
-      // Reset to previous valid value if out of range
-      event.target.value = this.quantity;
+  onQuantityChange(quantity: number): void {
+    if (quantity >= 1 && quantity <= 10) {
+      this.quantity = quantity;
+      this.secondFormGroup.get('quantity')?.setValue(quantity, { emitEvent: true });
+      this.cdRef.detectChanges(); // Force change detection
     }
   }
 
@@ -137,10 +136,12 @@ export class TicketPurchaseStepperComponent {
 
   onSeatSelected(seatType: SeatType): void {
     this.selectedSeatType = seatType;
+    this.quantity = 1; // Ensure quantity is set to 1 on seat selection
     this.secondFormGroup.patchValue({
       seatType: seatType.id,
-      quantity: this.quantity || 1
-    });
+      quantity: 1
+    }, { emitEvent: true }); // Ensure change detection is triggered
+    this.cdRef.detectChanges(); // Force change detection
   }
 
   onPersonalInfoSubmit(): void {

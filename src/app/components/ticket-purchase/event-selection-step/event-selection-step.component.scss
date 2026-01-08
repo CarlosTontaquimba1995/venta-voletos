@@ -1,34 +1,35 @@
 .event-selection-container {
-    padding: 1rem;
+    padding: var(--spacing-md);
 
     h2 {
         color: #3f51b5;
-        margin-bottom: 1.5rem;
+        margin-bottom: var(--spacing-lg);
         text-align: center;
+        font-size: var(--font-size-xl);
     }
 
     .event-cards {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1.5rem;
-        margin: 2rem 0;
-        padding: 0.5rem;
+        gap: var(--spacing-lg);
+        margin: var(--spacing-xl) 0;
+        padding: var(--spacing-sm);
     }
 
     .event-card {
         cursor: pointer;
-        transition: all 0.3s ease;
-        border-radius: 12px;
+        transition: all var(--transition-normal) ease;
+        border-radius: var(--border-radius-lg);
         overflow: hidden;
         border: 1px solid #e0e0e0;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        box-shadow: var(--shadow-sm);
         height: 100%;
         display: flex;
         flex-direction: column;
 
         &:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
             border-color: #cbd5e0;
         }
 
@@ -44,25 +45,25 @@
 
         mat-card-header {
             background-color: #f8f9fa;
-            padding: 1.25rem 1.5rem;
+            padding: var(--spacing-md) var(--spacing-lg);
             border-bottom: 1px solid #eee;
 
             mat-card-title {
-                font-size: 1.1rem;
+                font-size: var(--font-size-md);
                 font-weight: 600;
                 color: #2c3e50;
-                margin-bottom: 0.25rem;
+                margin-bottom: var(--spacing-xxs);
             }
 
             mat-card-subtitle {
                 color: #7f8c8d;
-                font-size: 0.9rem;
+                font-size: var(--font-size-sm);
                 margin-bottom: 0;
             }
         }
 
         mat-card-content {
-            padding: 1.5rem;
+            padding: var(--spacing-lg);
             flex-grow: 1;
             display: flex;
             flex-direction: column;
@@ -71,16 +72,15 @@
             p {
                 margin: 0;
                 color: #34495e;
-                font-size: 0.95rem;
+                font-size: var(--font-size-sm);
                 display: flex;
                 align-items: center;
 
                 &::before {
                     content: '\f073';
-                    /* FontAwesome calendar icon */
                     font-family: 'Font Awesome 6 Free';
                     font-weight: 900;
-                    margin-right: 0.5rem;
+                    margin-right: var(--spacing-sm);
                     color: #7f8c8d;
                 }
             }
@@ -92,5 +92,40 @@
 @media (max-width: 768px) {
     .event-cards {
         grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+        margin: var(--spacing-lg) 0;
+    }
+
+    .event-card {
+        mat-card-header {
+            padding: var(--spacing-sm);
+
+            mat-card-title {
+                font-size: var(--font-size-sm);
+            }
+
+            mat-card-subtitle {
+                font-size: var(--font-size-xs);
+            }
+        }
+
+        mat-card-content {
+            padding: var(--spacing-md);
+
+            p {
+                font-size: var(--font-size-xs);
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .event-selection-container {
+        padding: var(--spacing-sm);
+
+        h2 {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--spacing-md);
+        }
     }
 }
