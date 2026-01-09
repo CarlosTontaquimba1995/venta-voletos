@@ -1,10 +1,12 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Event, SeatType, PersonalInfo } from '../ticket-purchase-stepper/ticket-purchase-stepper.component';
+import { TicketResponse } from '../../../services/ticket.service';
 
 export interface OrderItem {
   name: string;
@@ -40,17 +42,36 @@ export interface SelectedSeatType {
     MatCardModule,
     MatButtonModule,
     MatDividerModule,
-    MatIconModule
+    MatIconModule,
+    MatSnackBarModule
   ],
   templateUrl: './confirmation-step.component.html',
   styleUrls: ['./confirmation-step.component.scss']
 })
 export class ConfirmationStepComponent implements OnInit, OnChanges {
+  constructor(private snackBar: MatSnackBar) { }
   @Input() event: Event | null = null;
   @Input() selectedSeats: { seatType: SeatType, quantity: number }[] = [];
   @Input() personalInfo: PersonalInfo = { name: '', email: '', phone: '' };
 
+  // Ticket response from the server
+  _ticketResponse: TicketResponse | null = null;
+
+  @Input()
+  set ticketResponse(value: TicketResponse | null) {
+    this._ticketResponse = value;
+    if (value) {
+      this.showSuccessMessage();
+    }
+  }
+
+  get ticketResponse(): TicketResponse | null {
+    return this._ticketResponse;
+  }
+
   orderNumber: string = '';
+  isLoading = false;
+  showTicketDetails = false;
   orderDetails: OrderDetails = {
     items: [],
     subtotal: 0,
@@ -123,16 +144,55 @@ export class ConfirmationStepComponent implements OnInit, OnChanges {
     }
   }
 
+  private showSuccessMessage(): void {
+    this.snackBar.open('¡Compra realizada con éxito!', 'Cerrar', {
+      duration: 5000,
+      panelClass: ['success-snackbar']
+    });
+  }
+
   downloadTickets(): void {
+    if (!this.ticketResponse?.ticket) {
+      this.snackBar.open('No hay tickets para descargar', 'Cerrar', {
+        duration: 3000
+      });
+      return;
+    }
+
+    this.isLoading = true;
+
     // In a real app, this would trigger a download of the tickets
-    console.log('Downloading tickets...');
-    // Implement actual download logic here
+    console.log('Downloading tickets...', this.ticketResponse);
+
+    // Simulate API call
+    setTimeout(() => {
+      this.isLoading = false;
+      this.snackBar.open('Descarga completada', 'Cerrar', {
+        duration: 3000
+      });
+    }, 1500);
   }
 
   sendToEmail(): void {
+    if (!this.ticketResponse?.ticket) {
+      this.snackBar.open('No hay tickets para enviar', 'Cerrar', {
+        duration: 3000
+      });
+      return;
+    }
+
+    this.isLoading = true;
+
     // In a real app, this would send the tickets to the user's email
-    console.log('Sending tickets to email...');
-    // Implement actual email sending logic here
+    console.log('Sending tickets to email...', this.ticketResponse);
+
+    // Simulate API call
+    setTimeout(() => {
+      this.isLoading = false;
+      this.snackBar.open('Tickets enviados al correo electrónico', 'Cerrar', {
+        duration: 3000
+      });
+    }, 1500);
   }
 
   getFormattedDate(dateString: string): string {

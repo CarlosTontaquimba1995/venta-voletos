@@ -1,4 +1,5 @@
-import { ChangeDetectorRef, Component, ViewChild, HostListener, ElementRef, AfterViewInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, HostListener, ElementRef, AfterViewInit, Inject } from '@angular/core';
+import { TicketService, TicketRequest, TicketResponse } from '../../../services/ticket.service';
 import { CommonModule } from '@angular/common';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,12 +8,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDividerModule } from "@angular/material/divider";
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { finalize } from 'rxjs/operators';
 
 // Step Components
 import { EventSelectionStepComponent } from '../event-selection-step/event-selection-step.component';
 import { SeatSelectionStepComponent } from '../seat-selection-step/seat-selection-step.component';
 import { PersonalInfoStepComponent } from '../personal-info-step/personal-info-step.component';
 import { ConfirmationStepComponent } from '../confirmation-step/confirmation-step.component';
+
+// Services
 
 export interface Event {
   id: number;
@@ -54,6 +59,7 @@ export type { PersonalInfo as IPersonalInfo };
     FormsModule,
     ReactiveFormsModule,
     MatDividerModule,
+    MatSnackBarModule,
     // Step Components
     EventSelectionStepComponent,
     SeatSelectionStepComponent,
@@ -65,6 +71,7 @@ export type { PersonalInfo as IPersonalInfo };
 })
 export class TicketPurchaseStepperComponent implements AfterViewInit {
   @ViewChild('stepper') stepper!: MatStepper;
+  @ViewChild(ConfirmationStepComponent) confirmationStep!: ConfirmationStepComponent;
 
   // Prevent clicks on stepper headers
   @HostListener('click', ['$event'])
@@ -89,6 +96,7 @@ export class TicketPurchaseStepperComponent implements AfterViewInit {
 
   isLinear = true;
   isCompleted = false;
+  isGeneratingTicket = false;
 
   // Form groups for each step
   firstFormGroup: FormGroup;
@@ -106,7 +114,12 @@ export class TicketPurchaseStepperComponent implements AfterViewInit {
     phone: ''
   };
 
-  constructor(private formBuilder: FormBuilder, private cdRef: ChangeDetectorRef) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private cdRef: ChangeDetectorRef,
+    @Inject(TicketService) private ticketService: TicketService,
+    private snackBar: MatSnackBar
+  ) {
     this.firstFormGroup = this.formBuilder.group({
       event: ['', Validators.required]
     });
@@ -172,16 +185,65 @@ export class TicketPurchaseStepperComponent implements AfterViewInit {
   }
 
   onConfirmPurchase(): void {
-    // Here you would typically send the order to your backend
-    console.log('Order confirmed:', {
-      event: this.selectedEvent,
-      seats: this.selectedSeats,
-      personalInfo: this.personalInfo,
-      total: this.getTotal()
-    });
+    if (this.isGeneratingTicket) return;
 
-    // Mark the current step as completed
-    this.isCompleted = true;
+    if (!this.selectedEvent || this.selectedSeats.length === 0 || !this.personalInfo) {
+      this.snackBar.open('Por favor complete todos los pasos del formulario', 'Cerrar', {
+        duration: 5000,
+        panelClass: ['error-snackbar']
+      });
+      return;
+    }
+
+    this.isGeneratingTicket = true;
+
+    // Prepare ticket data
+    const ticketData: TicketRequest = {
+      nombre_cliente: this.personalInfo.name,
+      email_cliente: this.personalInfo.email,
+      monto_total: this.getTotal(),
+      detalles: this.selectedSeats.map(seat => ({
+        type: seat.seatType.id,
+        quantity: seat.quantity,
+        price: seat.seatType.price,
+        total: seat.seatType.price * seat.quantity
+      }))
+    };
+
+    // Call the ticket service
+    this.ticketService.generateTicket(ticketData).pipe(
+      finalize(() => {
+        this.isGeneratingTicket = false;
+        this.cdRef.detectChanges();
+      })
+    ).subscribe({
+      next: (response: TicketResponse) => {
+        // Pass the ticket response to the confirmation component
+        this.confirmationStep.ticketResponse = response;
+        this.isCompleted = true;
+
+        // Move to the next step
+        if (this.stepper) {
+          this.stepper.next();
+        }
+
+        this.snackBar.open('¡Compra realizada con éxito!', 'Cerrar', {
+          duration: 5000,
+          panelClass: ['success-snackbar']
+        });
+      },
+      error: (error) => {
+        console.error('Error generating ticket:', error);
+        this.snackBar.open(
+          'Error al procesar la compra. Por favor, intente nuevamente.',
+          'Cerrar',
+          {
+            duration: 5000,
+            panelClass: ['error-snackbar']
+          }
+        );
+      }
+    });
   }
 
   getSelectedSeatPrice(): number {

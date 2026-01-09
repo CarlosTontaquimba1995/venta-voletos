@@ -8,7 +8,7 @@ export interface TicketRequest {
     nombre_cliente: string;
     email_cliente: string;
     monto_total: number;
-    items: Array<{
+    detalles: Array<{
         type: string;
         quantity: number;
         price: number;
