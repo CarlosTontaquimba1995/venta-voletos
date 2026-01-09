@@ -100,6 +100,7 @@ export class TicketPurchaseStepperComponent implements AfterViewInit {
   isLinear = true;
   isCompleted = false;
   isGeneratingTicket = false;
+  isPurchaseCompleted = false; // Track if purchase has been completed
 
   // Form groups for each step
   firstFormGroup: FormGroup;
@@ -242,6 +243,7 @@ export class TicketPurchaseStepperComponent implements AfterViewInit {
         // Pass the ticket response to the confirmation component
         this.confirmationStep.ticketResponse = response;
         this.isCompleted = true;
+        this.isPurchaseCompleted = true;
 
         // Move to the next step
         if (this.stepper) {
