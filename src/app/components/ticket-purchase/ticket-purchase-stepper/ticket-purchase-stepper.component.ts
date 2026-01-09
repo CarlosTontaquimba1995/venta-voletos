@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDividerModule } from "@angular/material/divider";
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
 
 // Step Components
@@ -16,6 +17,7 @@ import { EventSelectionStepComponent } from '../event-selection-step/event-selec
 import { SeatSelectionStepComponent } from '../seat-selection-step/seat-selection-step.component';
 import { PersonalInfoStepComponent } from '../personal-info-step/personal-info-step.component';
 import { ConfirmationStepComponent } from '../confirmation-step/confirmation-step.component';
+import { ConfirmTicketDialogComponent } from '../confirm-ticket-dialog/confirm-ticket-dialog.component';
 
 // Services
 
@@ -60,6 +62,7 @@ export type { PersonalInfo as IPersonalInfo };
     ReactiveFormsModule,
     MatDividerModule,
     MatSnackBarModule,
+    MatDialogModule,
     // Step Components
     EventSelectionStepComponent,
     SeatSelectionStepComponent,
@@ -118,7 +121,8 @@ export class TicketPurchaseStepperComponent implements AfterViewInit {
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
     @Inject(TicketService) private ticketService: TicketService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {
     this.firstFormGroup = this.formBuilder.group({
       event: ['', Validators.required]
@@ -195,6 +199,23 @@ export class TicketPurchaseStepperComponent implements AfterViewInit {
       return;
     }
 
+    const dialogRef = this.dialog.open(ConfirmTicketDialogComponent, {
+      width: '500px',
+      data: {
+        event: this.selectedEvent,
+        total: this.getTotal()
+      },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.processPurchase();
+      }
+    });
+  }
+
+  private processPurchase(): void {
     this.isGeneratingTicket = true;
 
     // Prepare ticket data
@@ -226,11 +247,6 @@ export class TicketPurchaseStepperComponent implements AfterViewInit {
         if (this.stepper) {
           this.stepper.next();
         }
-
-        this.snackBar.open('¡Compra realizada con éxito!', 'Cerrar', {
-          duration: 5000,
-          panelClass: ['success-snackbar']
-        });
       },
       error: (error) => {
         console.error('Error generating ticket:', error);

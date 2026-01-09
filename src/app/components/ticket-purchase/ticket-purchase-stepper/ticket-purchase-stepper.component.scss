@@ -47,57 +47,75 @@ $stepper-line-height: 2px;
   opacity: 0.9;
 }
 
-// Disable click on stepper headers
-.no-click-stepper {
-    ::ng-deep .mat-step-header {
-        pointer-events: none !important;
-        cursor: default !important;
-    }
-}
 // Stepper customization
-::ng-deep .mat-horizontal-stepper-header-container {
-  margin-bottom: 2rem;
-  position: relative;
-flex-wrap: nowrap;
+::ng-deep {
+  .mat-step-header {
+    pointer-events: none !important;
+    cursor: default !important;
+  }
+
+  .mat-horizontal-stepper-header-container {
+    margin-bottom: 2rem;
+    position: relative;
+    flex-wrap: nowrap;
     justify-content: center;
     gap: 0;
-}
+  }
 
-::ng-deep .mat-horizontal-stepper-header {
-  height: auto;
-padding: 0 4px;
-  pointer-events: auto;
-  overflow: visible;
-margin: 0 2px;
-  min-width: 0;
-}
+  .mat-horizontal-stepper-header {
+    height: auto;
+    padding: 0 4px;
+    pointer-events: auto;
+    overflow: visible;
+    margin: 0 2px;
+    min-width: 0;
+  }
 
-// Hide default stepper icons
-::ng-deep .mat-step-icon,
-::ng-deep .mat-step-header-ripple,
-::ng-deep .mat-step-icon-content,
-::ng-deep .mat-step-icon-selected,
-::ng-deep .mat-step-icon-state-done {
-  display: none !important;
-}
+  .mat-step-icon,
+  .mat-step-header-ripple,
+  .mat-step-icon-content,
+  .mat-step-icon-selected,
+  .mat-step-icon-state-done {
+    display: none !important;
+  }
 
-// Step label container
-::ng-deep .mat-step-label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-padding: 0 4px;
+  .mat-step-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 4px;
     min-width: 80px;
     max-width: 100px;
-  text-align: center;
-  position: relative;
-  z-index: 2;
-  height: auto;
-  overflow: visible;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    height: auto;
+    overflow: visible;
+  }
+
+  .mat-step-header + .mat-step-header::before,
+  .mat-stepper-horizontal-line {
+    display: none;
+  }
+
+  .mat-step-label[aria-selected="true"] .step-number,
+  .mat-step-label[aria-selected="false"] .step-number {
+    background: $primary;
+    color: $white;
+    border-color: $primary;
+  }
+
+  .mat-step-label[ng-reflect-state="done"] .step-number {
+    background: $success;
+    border-color: $success;
+  }
+
+  .mat-step-label[ng-reflect-state="done"] ~ .mat-step-header::before {
+    background: $success;
+  }
 }
 
-// Step number circle
+// Step styles
 .step-label {
   display: flex;
   flex-direction: column;
@@ -118,117 +136,90 @@ padding: 0 4px;
   font-size: 1rem;
   transition: all 0.3s ease;
   border: 2px solid $medium-gray;
-  position: relative;
-  z-index: 2;
 }
 
-.step-number.active {
-  background: $primary;
-  color: $white;
-  border-color: $primary;
-}
-
-// Step title and description
 .step-description {
   font-size: 0.85rem;
   color: $dark-gray;
   font-weight: 500;
   margin-top: 4px;
-  white-space: normal;
-  overflow: visible;
-  text-overflow: clip;
   width: 100%;
   word-break: break-word;
   line-height: 1.3;
 }
 
-// Active and completed states
-::ng-deep .mat-step-label[aria-selected="true"] .step-number,
-::ng-deep .mat-step-label[aria-selected="false"] .step-number {
-  background: $primary;
-  color: $white;
-  border-color: $primary;
-}
-
-::ng-deep .mat-step-label[aria-selected="true"] ~ .mat-step-header::before,
-::ng-deep .mat-step-label[aria-selected="false"] ~ .mat-step-header::before {
-  background: $primary;
-}
-
-// Completed state
-::ng-deep .mat-step-label[ng-reflect-state="done"] .step-number {
-  background: $success;
-  border-color: $success;
-  color: $white;
-}
-
-::ng-deep .mat-step-label[ng-reflect-state="done"] ~ .mat-step-header::before {
-  background: $success;
-}
-
-// Remove default connector line
-::ng-deep .mat-step-header + .mat-step-header::before {
-  display: none;
-}
-
-// Hide all connector lines
-::ng-deep .mat-stepper-horizontal-line {
-  display: none;
-}
-
-// Navigation buttons
+// Button styles
 .stepper-actions {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 2rem 0 0;
-  margin-top: 2rem;
+  gap: 0.75rem;
+  padding: 1rem 0 0;
+  margin-top: 1.5rem;
   border-top: 1px solid $medium-gray;
+  width: 100%;
+
+  .button-group {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  button {
+    min-width: 100px;
+    height: 36px;
+    padding: 0 16px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    transition: all 0.2s ease;
+
+    &[mat-stroked-button] {
+      border: 1px solid $primary;
+      color: $primary;
+      &:hover {
+        background: rgba($primary, 0.04);
+      }
+    }
+
+    &[mat-raised-button] {
+      background: $primary;
+      color: $white;
+      &:hover {
+        background: $primary-dark;
+      }
+    }
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      margin-right: 6px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 1rem 0.5rem;
+    gap: 0.75rem;
+
+    .button-group {
+      width: 100%;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    button {
+      width: 100%;
+      margin: 0;
+    }
+  }
 }
 
-.stepper-actions button {
-  min-width: 120px;
-  padding: 8px 24px;
-  border-radius: 4px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
+.stepper-buttons {
 }
 
-.stepper-actions button[mat-stroked-button] {
-  border: 1px solid $primary;
-  color: $primary;
-}
-
-.stepper-actions button[mat-stroked-button]:hover {
-  background: rgba($primary, 0.04);
-}
-
-.stepper-actions button[mat-raised-button] {
-  background: $primary;
-  color: $white;
-}
-
-.stepper-actions button[mat-raised-button]:hover {
-  background: $primary-dark;
-}
-
-// Cards
-.confirmation-card {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-}
-
-.event-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin: 2rem 0;
-  padding: 0.5rem;
-}
-
+// Card styles
 mat-card {
   cursor: pointer;
   transition: all 0.3s ease;
@@ -239,6 +230,18 @@ mat-card {
   height: 100%;
   display: flex;
   flex-direction: column;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-color: #cbd5e0;
+  }
+
+  &.selected {
+    border: 2px solid $primary;
+    background-color: #f8f9ff;
+    box-shadow: 0 4px 12px rgba(63, 81, 181, 0.15);
+  }
 }
 
 mat-card-header {
@@ -266,38 +269,34 @@ mat-card-content {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
 
-mat-card-content p {
-  margin: 0;
-  color: #34495e;
-  font-size: 0.95rem;
-  display: flex;
-  align-items: center;
-}
+  p {
+    margin: 0;
+    color: #34495e;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
 
-mat-card-content p::before {
-  content: '\f073';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
-  margin-right: 0.5rem;
-  color: #7f8c8d;
-}
+    &::before {
+      content: '\f073';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      margin-right: 0.5rem;
+      color: #7f8c8d;
+    }
+  }
 
-mat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  border-color: #cbd5e0;
-}
+  h3, h4 {
+    color: $primary;
+    margin: 1rem 0 0.5rem;
+  }
 
-mat-card.selected {
-  border: 2px solid #3f51b5;
-  background-color: #f8f9ff;
-  box-shadow: 0 4px 12px rgba(63, 81, 181, 0.15);
-}
-
-mat-card.selected mat-card-header {
-  background-color: #f0f2ff;
+  .total {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: $primary;
+    margin: 1rem 0;
+  }
 }
 
 // Seat selection
@@ -316,51 +315,13 @@ mat-card.selected mat-card-header {
 .quantity-selector {
   max-width: 200px;
   margin: 1rem 0;
-}
 
-.quantity-selector .total {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #3f51b5;
-  margin-top: 1rem;
-}
-
-// Forms
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.full-width {
-  width: 100%;
-}
-
-// Additional card content styles
-mat-card-content h3,
-mat-card-content h4 {
-  color: #3f51b5;
-  margin: 1rem 0 0.5rem;
-}
-
-mat-card-content .total {
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #3f51b5;
-  margin: 1rem 0;
-}
-
-// Stepper Navigation Buttons
-.stepper-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  padding: 1rem 0 0;
-  margin-top: auto;
-}
-
-.stepper-buttons button {
-  min-width: 120px;
+  .total {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: $primary;
+    margin-top: 1rem;
+  }
 }
 
 // Animations
@@ -379,7 +340,7 @@ mat-card-content .total {
   animation: fadeIn 0.3s ease-out;
 }
 
-// Responsive Adjustments
+// Responsive styles
 @media (max-width: 768px) {
   .stepper-container {
     padding: 0.25rem;
@@ -392,28 +353,8 @@ mat-card-content .total {
     margin: 0.25rem 0;
   }
 
-  .stepper-actions {
-    flex-direction: column;
-    gap: 0.75rem;
-    padding: 1rem 0.5rem;
-  }
-
-  .stepper-actions button {
-    width: 100%;
-    margin: 0;
-  }
-
   .event-cards,
   .seat-selection .seat-types {
     grid-template-columns: 1fr;
-  }
-
-  .stepper-buttons {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .stepper-buttons button {
-    width: 100%;
   }
 }

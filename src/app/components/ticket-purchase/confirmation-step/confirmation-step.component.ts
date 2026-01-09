@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { Event, SeatType, PersonalInfo } from '../ticket-purchase-stepper/ticket-purchase-stepper.component';
 import { TicketResponse } from '../../../services/ticket.service';
 
@@ -43,13 +43,13 @@ export interface SelectedSeatType {
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
-    MatSnackBarModule
+    ToastrModule
   ],
   templateUrl: './confirmation-step.component.html',
   styleUrls: ['./confirmation-step.component.scss']
 })
 export class ConfirmationStepComponent implements OnInit, OnChanges {
-  constructor(private snackBar: MatSnackBar) { }
+  constructor(private toastr: ToastrService) { }
   @Input() event: Event | null = null;
   @Input() selectedSeats: { seatType: SeatType, quantity: number }[] = [];
   @Input() personalInfo: PersonalInfo = { name: '', email: '', phone: '' };
@@ -145,17 +145,12 @@ export class ConfirmationStepComponent implements OnInit, OnChanges {
   }
 
   private showSuccessMessage(): void {
-    this.snackBar.open('¡Compra realizada con éxito!', 'Cerrar', {
-      duration: 5000,
-      panelClass: ['success-snackbar']
-    });
+    this.toastr.success('¡Compra realizada con éxito!', 'Éxito');
   }
 
   downloadTickets(): void {
     if (!this.ticketResponse?.ticket) {
-      this.snackBar.open('No hay tickets para descargar', 'Cerrar', {
-        duration: 3000
-      });
+      this.toastr.warning('No hay tickets para descargar', 'Atención');
       return;
     }
 
@@ -167,17 +162,13 @@ export class ConfirmationStepComponent implements OnInit, OnChanges {
     // Simulate API call
     setTimeout(() => {
       this.isLoading = false;
-      this.snackBar.open('Descarga completada', 'Cerrar', {
-        duration: 3000
-      });
+      this.toastr.success('Descarga completada', 'Éxito');
     }, 1500);
   }
 
   sendToEmail(): void {
     if (!this.ticketResponse?.ticket) {
-      this.snackBar.open('No hay tickets para enviar', 'Cerrar', {
-        duration: 3000
-      });
+      this.toastr.warning('No hay tickets para enviar', 'Atención');
       return;
     }
 
@@ -189,9 +180,7 @@ export class ConfirmationStepComponent implements OnInit, OnChanges {
     // Simulate API call
     setTimeout(() => {
       this.isLoading = false;
-      this.snackBar.open('Tickets enviados al correo electrónico', 'Cerrar', {
-        duration: 3000
-      });
+      this.toastr.success('Tickets enviados al correo electrónico', 'Éxito');
     }, 1500);
   }
 
