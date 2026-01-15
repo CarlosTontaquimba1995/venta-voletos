@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 export interface TicketRequest {
     nombre_cliente: string;
     email_cliente: string;
+    nombre_evento: string;
     monto_total: number;
     detalles: Array<{
         type: string;

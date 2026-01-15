@@ -177,20 +177,20 @@
 .customer-info {
     .info-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: var(--spacing-sm);
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
 
         .info-item {
-            margin-bottom: var(--spacing-sm);
-                padding: var(--spacing-xs);
+            padding: var(--spacing-sm);
                 background: var(--color-background);
                 border-radius: var(--border-radius-sm);
+            min-width: 0; // Allows text to respect the container's boundaries
 
             .info-label {
                 display: block;
                 font-size: var(--font-size-xs);
                 color: var(--color-text-secondary);
-                margin-bottom: 2px;
+                margin-bottom: 4px;
                     text-transform: uppercase;
                     letter-spacing: 0.5px;
             }
@@ -198,6 +198,11 @@
             .info-value {
                 font-weight: 500;
                 color: var(--color-text-primary);
+                word-break: break-word;
+                    overflow-wrap: break-word;
+                    display: inline-block;
+                    width: 100%;
+                    white-space: normal;
             }
         }
     }

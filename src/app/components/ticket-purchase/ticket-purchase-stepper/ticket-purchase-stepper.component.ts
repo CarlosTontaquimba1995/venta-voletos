@@ -223,6 +223,7 @@ export class TicketPurchaseStepperComponent implements AfterViewInit {
     const ticketData: TicketRequest = {
       nombre_cliente: this.personalInfo.name,
       email_cliente: this.personalInfo.email,
+      nombre_evento: this.selectedEvent?.name || 'Evento no especificado',
       monto_total: this.getTotal(),
       detalles: this.selectedSeats.map(seat => ({
         type: seat.seatType.id,

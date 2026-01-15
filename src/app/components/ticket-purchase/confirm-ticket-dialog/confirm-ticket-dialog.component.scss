@@ -5,41 +5,53 @@
     color: var(--color-text-primary);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
-        0 24px 38px 3px rgba(0, 0, 0, 0.14),
-        0 9px 46px 8px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14),
+        0 6px 30px 5px rgba(0, 0, 0, 0.12),
+        0 8px 10px -7px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: white;
 }
 
 .confirm-dialog {
-    max-width: 520px;
+    max-width: 560px;
     margin: 0;
     font-family: 'Roboto', 'Helvetica Neue', sans-serif;
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
-        0 24px 38px 3px rgba(0, 0, 0, 0.14),
-        0 9px 46px 8px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14),
+        0 6px 30px 5px rgba(0, 0, 0, 0.12),
+        0 8px 10px -7px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: white;
 }
 
 .dialog-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 24px;
-    background: var(--color-primary);
+    padding: 24px 32px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, #3949ab 100%);
     color: white;
     position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 12px 12px 0 0;
 
     .dialog-title {
         margin: 0;
-        font-size: 20px;
-        font-weight: 500;
+        font-size: 24px;
+        font-weight: 600;
         display: flex;
         align-items: center;
+        letter-spacing: 0.5px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 
         .title-icon {
-            margin-right: 12px;
-            color: rgba(255, 255, 255, 0.9);
+            margin-right: 14px;
+            color: white;
+            font-size: 32px;
+            width: 32px;
+            height: 32px;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
         }
     }
 
@@ -77,8 +89,8 @@
 .event-card {
     background: #f8f9fa;
     border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 24px;
+    padding: 24px;
+    margin: 24px 0;
     border: 1px solid #e0e0e0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
@@ -104,12 +116,13 @@
     }
 
     .event-details {
-        margin-bottom: 20px;
+        margin: 20px 0;
 
         .detail-row {
             display: flex;
-            margin-bottom: 10px;
-            font-size: 14px;
+            margin: 12px 0;
+            font-size: 15px;
+            line-height: 1.5;
 
             .detail-label {
                 color: #616161;
@@ -150,9 +163,10 @@
     display: flex;
     background: #e3f2fd;
     border-radius: 6px;
-    padding: 16px;
-    margin-top: 20px;
+    padding: 18px 20px;
+    margin: 16px 0;
     border-left: 4px solid #1976d2;
+    text-align: left;
 
     .notice-icon {
         color: #1976d2;
@@ -163,11 +177,36 @@
 
     .notice-content {
         font-size: 14px;
-        line-height: 1.5;
+        line-height: 1.6;
         color: #0d47a1;
+        text-align: justify;
+        text-justify: inter-word;
+        hyphens: auto;
+        word-break: break-word;
 
         strong {
             font-weight: 500;
+        }
+    }
+
+    &.email-notice {
+        background: #e8f5e9;
+        border-left: 4px solid #2e7d32;
+        margin: 20px 0;
+        padding: 18px 20px;
+
+        .notice-icon {
+            color: #2e7d32;
+        }
+
+        .notice-content {
+            color: #1b5e20;
+
+            strong {
+                display: block;
+                margin-bottom: 4px;
+                font-size: 15px;
+            }
         }
     }
 }
@@ -175,18 +214,18 @@
 .dialog-actions {
     display: flex;
     justify-content: flex-end;
-    padding: 10px 16px;
-    gap: 8px;
+    padding: 16px 24px;
+    gap: 12px;
     margin: 0;
     background: #f5f5f5;
     border-top: 1px solid #e0e0e0;
 
     .action-button {
-        min-width: 100px;
-        height: 34px;
-        font-size: 12px;
-        padding: 0 12px;
-        border-radius: 3px;
+        min-width: 120px;
+        height: 40px;
+        font-size: 14px;
+        padding: 0 20px;
+        border-radius: 4px;
         font-weight: 500;
         letter-spacing: 0.5px;
         text-transform: uppercase;
@@ -198,10 +237,10 @@
         cursor: pointer;
 
         mat-icon {
-            font-size: 14px;
-            width: 14px;
-            height: 14px;
-            margin-right: 4px;
+            font-size: 18px;
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
         }
 
         &.cancel-button {
@@ -218,150 +257,77 @@
         &.confirm-button {
             background: var(--color-primary, #3f51b5);
             color: white !important;
-
-            .mat-button-wrapper {
-                color: white !important;
-            }
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
             &:hover {
                 background: var(--color-primary-dark, #303f9f);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             }
 
             &[disabled] {
                 background: rgba(0, 0, 0, 0.12);
-                color: rgba(0, 0, 0, 0.26) !important;
+                color: rgba(0, 0, 0, 0.38) !important;
+                box-shadow: none;
                 cursor: not-allowed;
             }
         }
     }
 }
 
-mat-dialog-content {
-    padding: var(--spacing-lg);
-    color: var(--color-text-primary);
-    background: var(--color-background);
-
-    p {
-        margin: 0 0 var(--spacing-md) 0;
-        font-size: var(--font-size-md);
-        line-height: 1.5;
-    }
+/* Additional styles for mat-dialog specific elements */
+::ng-deep .mat-dialog-container {
+    padding: 0 !important;
+    border-radius: 16px !important;
+    overflow: hidden;
 }
 
-.event-info {
-    background: var(--color-surface);
-    border-radius: var(--border-radius-md);
-    padding: var(--spacing-md);
-    margin: var(--spacing-md) 0;
-    border: 1px solid var(--color-border);
-
-    h3 {
-        margin: 0 0 var(--spacing-xs) 0;
-        color: var(--color-primary);
-        font-size: var(--font-size-lg);
-        font-weight: 600;
-    }
-
-    p {
-        margin: 0;
-        color: var(--color-text-secondary);
-        font-size: var(--font-size-md);
-
-        strong {
-            color: var(--color-text-primary);
-            font-weight: 600;
-        }
-    }
+::ng-deep .mat-dialog-title {
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-.warning {
-    display: flex;
-    align-items: flex-start;
-    color: var(--color-warning-dark);
-    background-color: var(--color-warning-light);
-    padding: var(--spacing-md);
-    border-radius: var(--border-radius-md);
-    margin: var(--spacing-md) 0 0;
-    font-size: var(--font-size-sm);
-    line-height: 1.5;
-    border: 1px solid var(--color-warning);
-
-    mat-icon {
-        margin-right: var(--spacing-sm);
-        color: var(--color-warning);
-        flex-shrink: 0;
-        margin-top: 2px;
-    }
+::ng-deep .mat-dialog-content {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-height: 80vh !important;
 }
 
-mat-dialog-actions {
-    padding: var(--spacing-md) var(--spacing-lg);
-    margin: 0;
-    background: var(--color-background);
-    border-top: 1px solid var(--color-border);
-    border-radius: 0 0 var(--border-radius-md) var(--border-radius-md);
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--spacing-md);
-    min-height: 80px;
-    box-sizing: border-box;
-    align-items: center;
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .dialog-header {
+        padding: 16px 20px;
 
-    button {
-        text-transform: uppercase;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        padding: 0 20px;
-        height: 44px;
-        border-radius: var(--border-radius-md);
-        transition: all 0.2s ease;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        min-width: 120px;
-
-        &[mat-stroked-button] {
-            color: var(--color-primary);
-            border: 1px solid var(--color-primary);
-            background: transparent;
-
-            &:hover {
-                background: rgba(63, 81, 181, 0.04);
-            }
-
-            &:active {
-                background: rgba(63, 81, 181, 0.1);
-            }
-        }
-
-        &[mat-raised-button] {
-            background: var(--color-primary);
-            color: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-            &:hover {
-                background: var(--color-primary-dark);
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            }
-
-            &:active {
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                transform: translateY(1px);
-            }
-
-            &[disabled] {
-                background: rgba(0, 0, 0, 0.12);
-                color: rgba(0, 0, 0, 0.38);
-                box-shadow: none;
-            }
-        }
-
-        mat-icon {
-            margin-right: 8px;
+        .dialog-title {
             font-size: 20px;
-            width: 20px;
-            height: 20px;
+        }
+    }
+
+    .dialog-content {
+        padding: 16px;
+    }
+
+    .event-card {
+        padding: 16px;
+
+        .event-details .detail-row {
+            flex-direction: column;
+            gap: 4px;
+
+            .detail-label {
+                width: 100%;
+                margin-bottom: 2px;
+            }
+        }
+    }
+
+    .dialog-actions {
+        padding: 12px 16px;
+        flex-wrap: wrap;
+
+        .action-button {
+            flex: 1;
+            min-width: 120px;
+            margin: 4px 0;
         }
     }
 }
