@@ -93,7 +93,7 @@ $stepper-line-height: 2px;
     overflow: visible;
   }
 
-  .mat-step-header + .mat-step-header::before,
+  .mat-step-header+.mat-step-header::before,
   .mat-stepper-horizontal-line {
     display: none;
   }
@@ -110,7 +110,7 @@ $stepper-line-height: 2px;
     border-color: $success;
   }
 
-  .mat-step-label[ng-reflect-state="done"] ~ .mat-step-header::before {
+  .mat-step-label[ng-reflect-state="done"]~.mat-step-header::before {
     background: $success;
   }
 }
@@ -123,6 +123,7 @@ $stepper-line-height: 2px;
   gap: 8px;
 }
 
+// Step number styles
 .step-number {
   width: 40px;
   height: 40px;
@@ -136,6 +137,31 @@ $stepper-line-height: 2px;
   font-size: 1rem;
   transition: all 0.3s ease;
   border: 2px solid $medium-gray;
+
+  &.active,
+  &--active {
+    background: $primary;
+    color: $white;
+    border-color: $primary;
+  }
+
+  &.completed,
+  &--completed {
+    background: $success;
+    color: $white;
+    border-color: $success;
+  }
+}
+
+// Update the ng-deep section
+::ng-deep {
+  .mat-step-header[aria-selected="true"] .step-number {
+    @extend .step-number--active;
+  }
+
+  .mat-step-header[ng-reflect-completed="true"] .step-number {
+    @extend .step-number--completed;
+  }
 }
 
 .step-description {
@@ -177,6 +203,7 @@ $stepper-line-height: 2px;
     &[mat-stroked-button] {
       border: 1px solid $primary;
       color: $primary;
+
       &:hover {
         background: rgba($primary, 0.04);
       }
@@ -185,6 +212,7 @@ $stepper-line-height: 2px;
     &[mat-raised-button] {
       background: $primary;
       color: $white;
+
       &:hover {
         background: $primary-dark;
       }
@@ -284,7 +312,8 @@ mat-card-content {
     }
   }
 
-  h3, h4 {
+  h3,
+  h4 {
     color: $primary;
     margin: 1rem 0 0.5rem;
   }
@@ -328,6 +357,7 @@ mat-card-content {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
