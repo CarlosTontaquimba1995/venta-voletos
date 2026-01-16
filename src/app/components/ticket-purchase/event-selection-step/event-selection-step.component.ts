@@ -1,8 +1,18 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { Event } from '../ticket-purchase-stepper/ticket-purchase-stepper.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+import { SubcategoriaService } from '../../../services/subcategoria.service';
+
+export interface Event {
+  id: number;
+  name: string;
+  date: string;
+  location: string;
+  descripcion?: string;
+}
 
 @Component({
   selector: 'app-event-selection-step',
@@ -10,20 +20,51 @@ import { Event } from '../ticket-purchase-stepper/ticket-purchase-stepper.compon
   imports: [
     CommonModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatIconModule
   ],
   templateUrl: './event-selection-step.component.html',
   styleUrls: ['./event-selection-step.component.scss']
 })
-export class EventSelectionStepComponent {
-  @Input() events: Event[] = [
-    { id: 1, name: 'Concierto de Rock', date: '2023-12-25', location: 'Estadio Olímpico' },
-    { id: 2, name: 'Festival de Jazz', date: '2023-12-30', location: 'Teatro Nacional' },
-    { id: 3, name: 'Partido de Fútbol', date: '2024-01-05', location: 'Estadio Monumental' }
-  ];
+export class EventSelectionStepComponent implements OnInit {
+  events: Event[] = [];
+  loading = true;
+  error: string | null = null;
 
   @Input() selectedEvent: Event | null = null;
   @Output() eventSelected = new EventEmitter<Event>();
+
+  constructor(private subcategoriaService: SubcategoriaService) { }
+
+  ngOnInit(): void {
+    this.loadEvents();
+  }
+
+  loadEvents(): void {
+    this.loading = true;
+    this.error = null;
+
+    this.subcategoriaService.getProximosEventos().subscribe({
+      next: (response: any) => {
+        if (response.success && response.data) {
+          this.events = response.data.map((event: any) => ({
+            id: event.id || 0,
+            name: event.nombre || 'Evento sin nombre',
+            date: event.fechaEvento || new Date().toISOString(),
+            location: event.ubicacion || 'Ubicación no especificada',
+            descripcion: event.descripcion
+          }));
+        }
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error al cargar eventos:', err);
+        this.error = 'No se pudieron cargar los eventos. Por favor, intente nuevamente.';
+        this.loading = false;
+      }
+    });
+  }
 
   onEventSelected(event: Event): void {
     this.eventSelected.emit(event);

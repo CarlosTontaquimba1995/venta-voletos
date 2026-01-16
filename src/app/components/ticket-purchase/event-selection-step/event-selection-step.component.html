@@ -1,15 +1,48 @@
 <div class="event-selection-container">
-    <h2>Selecciona un Evento</h2>
-    <div class="event-cards">
-        <mat-card *ngFor="let event of events" [class.selected]="selectedEvent?.id === event.id"
-            (click)="onEventSelected(event)" class="event-card">
-            <mat-card-header>
-                <mat-card-title>{{ event.name }}</mat-card-title>
-                <mat-card-subtitle>{{ event.location }}</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-                <p>Fecha: {{ event.date | date:'fullDate':'':'es' }}</p>
-            </mat-card-content>
-        </mat-card>
+    <h2>Próximos Eventos</h2>
+    
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-container">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p>Cargando eventos...</p>
+    </div>
+    
+    <!-- Error State -->
+    <div *ngIf="error && !loading" class="error-message">
+        <mat-icon>error_outline</mat-icon>
+        <p>{{ error }}</p>
+        <button mat-raised-button color="primary" (click)="loadEvents()">
+            <mat-icon>refresh</mat-icon>
+            Reintentar
+        </button>
+    </div>
+    
+    <!-- Events List -->
+    <div *ngIf="!loading && !error">
+        <div *ngIf="events.length === 0" class="no-events">
+            <mat-icon>event_busy</mat-icon>
+            <p>No hay eventos próximos disponibles en este momento.</p>
+        </div>
+    
+        <div class="event-cards">
+            <mat-card *ngFor="let event of events" [class.selected]="selectedEvent?.id === event.id"
+                (click)="onEventSelected(event)" class="event-card">
+                <mat-card-header>
+                    <mat-card-title>{{ event.name }}</mat-card-title>
+                    <mat-card-subtitle>
+                        <mat-icon>location_on</mat-icon> {{ event.location }}
+                    </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                    <p class="event-date">
+                        <mat-icon>event</mat-icon>
+                        {{ event.date | date:'fullDate':'':'es' }}
+                    </p>
+                    <p *ngIf="event.descripcion" class="event-description">
+                        {{ event.descripcion }}
+                    </p>
+                    </mat-card-content>
+                    </mat-card>
+        </div>
     </div>
 </div>
