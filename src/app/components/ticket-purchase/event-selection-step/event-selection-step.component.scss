@@ -13,10 +13,10 @@
 
     .event-cards {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: var(--spacing-lg);
-        margin: var(--spacing-xl) 0;
-        padding: var(--spacing-sm);
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+        margin: var(--spacing-lg) 0;
+        padding: 0 var(--spacing-sm);
     }
 
     .event-card {
