@@ -5,14 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { SubcategoriaService } from '../../../services/subcategoria.service';
-
-export interface Event {
-  id: number;
-  name: string;
-  date: string;
-  location: string;
-  descripcion?: string;
-}
+import { Event } from '../../../models/event.interface';
 
 @Component({
   selector: 'app-event-selection-step',
